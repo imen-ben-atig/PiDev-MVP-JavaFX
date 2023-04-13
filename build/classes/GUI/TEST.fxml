@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="este.controller.CrudController">
+   <children>
+      <Label layoutX="44.0" layoutY="88.0" text="Lista Crud" />
+      <Label layoutX="333.0" layoutY="109.0" text="Nome" />
+      <TableView fx:id="crudTableView" layoutX="43.0" layoutY="108.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="nomeTableColumn" prefWidth="199.0" text="Nome" />
+        </columns>
+      </TableView>
+      <TextField fx:id="nomeTextField" layoutX="392.0" layoutY="105.0" />
+      <Button onAction="#addOrUpdateCrud" fx:id ="addCrudButton" layoutX="366.0" layoutY="200.0" mnemonicParsing="false" text="Add" />
+      <Button onAction="#changeCrud" fx:id ="editCrudButton" layoutX="415.0" layoutY="200.0" mnemonicParsing="false" text="Edit" />
+      <Button onAction="#removeCrud" layoutX="465.0" layoutY="200.0" mnemonicParsing="false" text="Remove" />
+      <Button onAction="#getCrud" layoutX="306.0" layoutY="200.0" mnemonicParsing="false" text="List" />
+      <Button onAction="#addOrUpdateCrud" fx:id ="updateCrudButton" layoutX="350.0" layoutY="200.0" mnemonicParsing="false" text="Update" />
+   </children>
+</AnchorPane>

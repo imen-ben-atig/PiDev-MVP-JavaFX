@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gamegalaxy_evenement.reservation.FXMLDocumentController">
+   <children>
+      <HBox layoutX="62.0" layoutY="75.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="276.0">
+               <children>
+                  <HBox prefHeight="52.0" prefWidth="406.0">
+                     <children>
+                        <Label text="ID" />
+                        <TextField fx:id="IDTextfield" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="52.0" prefWidth="406.0">
+                     <children>
+                        <Label text="NOM" />
+                        <TextField fx:id="NOM" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="52.0" prefWidth="406.0">
+                     <children>
+                        <Label text="DATE" />
+                        <TextField fx:id="DATE" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="52.0" prefWidth="270.0">
+                     <children>
+                        <Label text="DESC" />
+                        <TextField fx:id="DESC" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="52.0" prefWidth="406.0">
+                     <children>
+                        <Label text="DUREE" />
+                        <TextField fx:id="DUREE" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="52.0" prefWidth="406.0">
+                     <children>
+                        <Label text="CAP" />
+                        <TextField fx:id="CAP" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="29.0" prefWidth="406.0">
+                     <children>
+                        <Label text="TYPE" />
+                        <TextField fx:id="TYPE" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="29.0" prefWidth="406.0">
+                     <children>
+                        <Label text="IMG" />
+                        <TextField fx:id="IMG" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addItem" text="add" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteItem" text="del" />
+                        <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateItem" text="update" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <TableView fx:id="tableview" prefHeight="400.0" prefWidth="326.0">
+              <columns>
+                <TableColumn fx:id="colid" prefWidth="22.0" text="id" />
+                <TableColumn fx:id="colnom" prefWidth="58.0" text="nom" />
+                  <TableColumn fx:id="coldesc" prefWidth="55.0" text="desc" />
+                  <TableColumn fx:id="colduree" prefWidth="66.0" text="duree" />
+                  <TableColumn fx:id="colcap" prefWidth="39.0" text="cap" />
+                  <TableColumn fx:id="coltype" prefWidth="52.0" text="type" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
