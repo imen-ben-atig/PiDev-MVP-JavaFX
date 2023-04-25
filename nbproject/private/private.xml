@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/Service/ServiceReclamation.java</file>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/GUI/FXMLgstreclamationuserController.java</file>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/Service/ServiceRepons.java</file>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/GUI/FXMLtypereclamationbackController.java</file>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/Entite/Repons.java</file>
-            <file>file:/C:/Users/winxspace/Documents/NetBeansProjects/GameGalaxy1/src/GUI/FXMLgstreclamationfront.fxml</file>
+            <file>file:/C:/Users/winxspace/Documents/PiDev-MVP-JavaFX/src/Util/DataSource.java</file>
+            <file>file:/C:/Users/winxspace/Documents/PiDev-MVP-JavaFX/src/GUI/FXMLtypereclamationbackController.java</file>
+            <file>file:/C:/Users/winxspace/Documents/PiDev-MVP-JavaFX/src/GUI/FXMLgstreclamationfront.fxml</file>
+            <file>file:/C:/Users/winxspace/Documents/PiDev-MVP-JavaFX/src/GUI/FXMLgstreclamationuserController.java</file>
+            <file>file:/C:/Users/winxspace/Documents/PiDev-MVP-JavaFX/src/Entite/Reclamation.java</file>
         </group>
     </open-files>
 </project-private>

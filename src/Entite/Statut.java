@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package Entite;
 
 /**
  *
  * @author winxspace
  */
-class reclamant {
-    
+public enum Statut {
+    NON_TRAITE , TRAITE , EN_ATTENTE 
 }

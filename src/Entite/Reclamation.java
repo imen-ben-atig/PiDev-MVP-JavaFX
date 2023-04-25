@@ -17,13 +17,14 @@ public class Reclamation {
     private String type_rec;
     private Date date_rec;
     private String contenu_rec;
-    private String statut_rec; 
+    //private String statut_rec; 
+    private Statut statut_rec ;
     private String username; 
 
     public Reclamation() {
     }
 
-    public Reclamation(String titre_rec, String type_rec, Date date_rec, String contenu_rec, String statut_rec, String username) {
+    public Reclamation(String titre_rec, String type_rec, Date date_rec, String contenu_rec, Statut statut_rec, String username) {
         this.titre_rec = titre_rec;
         this.type_rec = type_rec;
         this.date_rec = date_rec;
@@ -72,11 +73,11 @@ public class Reclamation {
         this.contenu_rec = contenu_rec;
     }
 
-    public String getStatut_rec() {
+    public Statut getStatut_rec() {
         return statut_rec;
     }
 
-    public void setStatut_rec(String statut_rec) {
+    public void setStatut_rec(Statut statut_rec) {
         this.statut_rec = statut_rec;
     }
 

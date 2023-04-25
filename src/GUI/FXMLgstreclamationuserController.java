@@ -6,6 +6,7 @@
 package GUI;
 
 import Entite.Reclamation;
+import Entite.Statut;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -53,6 +54,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,6 +65,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -77,7 +80,10 @@ import javafx.stage.Stage;
  * @author winxspace
  */
 public class FXMLgstreclamationuserController implements Initializable {
+  
 
+    @FXML
+    private ComboBox<String> statut;
     @FXML
     private AnchorPane anchore;
     @FXML
@@ -104,20 +110,20 @@ public class FXMLgstreclamationuserController implements Initializable {
     private TableView<Reclamation> tvtype;
       ServiceReclamation str=new ServiceReclamation();
     ObservableList<String> data=FXCollections.observableArrayList();
+      @FXML
+       private TableColumn<Reclamation, Integer> cid;
+       @FXML
+       private TableColumn<Reclamation, String> ctitre;
         @FXML
-    private TableColumn<Reclamation, Integer> cid;
-    @FXML
-    private TableColumn<Reclamation, String> ctitre;
-    @FXML
     private TableColumn<Reclamation, Date> ctype;
-    @FXML
-    private TableColumn<Reclamation, String> cstatus;
-    @FXML
-    private TableColumn<Reclamation, String> csusername;
-    @FXML
-    private TableColumn<Reclamation, String> cdesc;
-    @FXML
-    private TableColumn<Reclamation, Date> cdate;
+        @FXML
+        private TableColumn<Reclamation, String> cstatus;
+        @FXML
+        private TableColumn<Reclamation, String> csusername;
+        @FXML
+        private TableColumn<Reclamation, String> cdesc;
+        @FXML
+        private TableColumn<Reclamation, Date> cdate;
     /**
      * Initializes the controller class.
      */
@@ -126,44 +132,77 @@ public class FXMLgstreclamationuserController implements Initializable {
         // TODO
         tfdate.setValue(LocalDate.now());
     }    
-
-@FXML
-private void modifier(ActionEvent event) {
-       Reclamation selectedReclamation = (Reclamation) tvtype.getSelectionModel().getSelectedItem();
-    if (selectedReclamation == null) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a row to update!");
-        alert.showAndWait();
-        return;
+   @FXML
+    private void tri(ActionEvent event) {
+            cid.setCellValueFactory(new PropertyValueFactory<>("id_rec"));
+    ctitre.setCellValueFactory(new PropertyValueFactory<>("titre_rec"));
+    ctype.setCellValueFactory(new PropertyValueFactory<>("type_rec"));
+    cstatus.setCellValueFactory(new PropertyValueFactory<>("statut_rec"));
+    csusername.setCellValueFactory(new PropertyValueFactory<>("username"));
+    cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rec"));
+    cdate.setCellValueFactory(new PropertyValueFactory<>("date_rec"));
+            Reclamation p=new Reclamation();
+        ServiceReclamation sp = new ServiceReclamation();
     }
-    if(controleDeSaisie().length() > 0) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Erreur modification réclamation");
-        alert.setContentText(controleDeSaisie());
-        alert.showAndWait();
-    } else {
-    // Get the updated values from the UI controls
-    System.out.println("test");
-    String titreRec = tftitre.getText();
-    String typeRec = tftype.getText();
-    String statusRec = tfstatut.getText();
-    String contenuRec = tfdescription.getText();
-    String Username = tfusername.getText();
-    LocalDate localDate = tfdate.getValue();
-    Date dateRec = Date.valueOf(localDate);
-    
-    // Update the selected Reclamtion object
-    selectedReclamation.setTitre_rec(titreRec);
-    selectedReclamation.setType_rec(typeRec);
-    selectedReclamation.setUsername(Username);
-    selectedReclamation.setStatut_rec(statusRec);
-    selectedReclamation.setContenu_rec(contenuRec);
-    selectedReclamation.setDate_rec(dateRec);
-    
-    // Call the update method and refresh the table view
-    str.modifier(selectedReclamation, 1);
-    displayData();
+@FXML
+private void display(ActionEvent event) {
+    Reclamation selectedReclamation = tvtype.getSelectionModel().getSelectedItem(); // Get selected item from table view
+    if (selectedReclamation != null) {
+        // Display selected row data in text fields
+       
+        tftitre.setText(selectedReclamation.getTitre_rec());
+        tftype.setText(selectedReclamation.getType_rec());
+        tfusername.setText(selectedReclamation.getUsername());
+        tfdescription.setText(selectedReclamation.getContenu_rec());
+        tfdate.setValue(selectedReclamation.getDate_rec().toLocalDate());
     }
 }
+    @FXML
+private void rechercher(ActionEvent event) {
+    String recherche = tfrecherche.getText();
+    // Call the search method in your ServiceReclamation class to search for Reclamation objects
+    // Replace "str" with the appropriate instance of your ServiceReclamation class
+    List<Reclamation> result = str.search("titre_rec", recherche); 
+    List<Reclamation> result1 = str.search("type_rec", recherche);
+    List<Reclamation> result2 = str.search("username", recherche);
+
+    // Update table view with search results
+    tvtype.setItems(FXCollections.observableArrayList(result));
+    tvtype.setItems(FXCollections.observableArrayList(result1));
+    tvtype.setItems(FXCollections.observableArrayList(result2));
+}
+@FXML
+private void modifier(ActionEvent event) {
+    
+    Reclamation selectedReclamation = tvtype.getSelectionModel().getSelectedItem(); // Get selected item from table view
+    if (selectedReclamation != null) {
+        // Update selected row data with values from text fields
+        selectedReclamation.setTitre_rec(tftitre.getText());
+        selectedReclamation.setType_rec(tftype.getText());
+        selectedReclamation.setStatut_rec(Statut.EN_ATTENTE);
+        selectedReclamation.setUsername(tfusername.getText());
+        selectedReclamation.setContenu_rec(tfdescription.getText());
+        selectedReclamation.setDate_rec(Date.valueOf(tfdate.getValue()));
+
+        // Call your update method to update the reclamation data in the database
+        // replace with the appropriate method call to update the data in your service/repo
+        str.modifier(selectedReclamation, selectedReclamation.getId());
+
+        // Clear text fields after update
+   
+        tftitre.clear();
+        tftype.clear();
+  
+        tfusername.clear();
+        tfdescription.clear();
+        tfdate.getEditor().clear();
+
+        // Refresh table view after update
+        tvtype.refresh();
+    }
+}
+
+
 
             
   public String controleDeSaisie(){
@@ -188,19 +227,22 @@ private void modifier(ActionEvent event) {
     @FXML
     private void supprimer(ActionEvent event) throws Exception {
         ServiceReclamation sr = new ServiceReclamation();
-        sr.supprimer(Integer.valueOf(tfid.getText()));
-        displayData();
+        if(tvtype.getSelectionModel().getSelectedItem()!=null){
+            int id=tvtype.getSelectionModel().getSelectedItem().getId();
+            sr.supprimer(id);
+            displayData();
+        }
     }
     @FXML
     private void displayData() {
     ObservableList<Reclamation> dataList = FXCollections.observableArrayList(str.afficher());
-    cid.setCellValueFactory(new PropertyValueFactory<>("id"));
+    cid.setCellValueFactory(new PropertyValueFactory<>("id_rec"));
     ctitre.setCellValueFactory(new PropertyValueFactory<>("titre_rec"));
     ctype.setCellValueFactory(new PropertyValueFactory<>("type_rec"));
     cstatus.setCellValueFactory(new PropertyValueFactory<>("statut_rec"));
-    csusername.setCellValueFactory(new PropertyValueFactory<>("username"));  
-    cdate.setCellValueFactory(new PropertyValueFactory<>("date_rep"));
-    cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rep"));
+    csusername.setCellValueFactory(new PropertyValueFactory<>("username"));
+    cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rec"));
+    cdate.setCellValueFactory(new PropertyValueFactory<>("date_rec"));
     tvtype.setItems(dataList);
 }
 @FXML
@@ -268,31 +310,6 @@ private void generatepdf(ActionEvent event) {
     }
 }
 
-    
-
-
-    
-  @FXML
-private void tri(ActionEvent event) {
-
-    ServiceReclamation sr = new ServiceReclamation();
-    List<Reclamation> reclamations = sr.afficher();
-    reclamations.sort((r1, r2) -> r1.getTitre_rec().compareTo(r2.getTitre_rec()));
-    grid.getChildren().clear();
-    int row = 1;
-    for (Reclamation r : reclamations) {
-        Label idLabel = new Label(String.valueOf(r.getId()));
-        idLabel.setPadding(new Insets(5));
-        grid.add(idLabel, 0, row);
-
-        Label titreLabel = new Label(r.getTitre_rec());
-        titreLabel.setPadding(new Insets(5));
-        grid.add(titreLabel, 1, row);
-
-        row++;
-    }
-}
-
     @FXML
     private void gotoajouterreclamation(ActionEvent event) {
            Stage stageclose=(Stage)((Node)event.getSource()).getScene().getWindow();
@@ -314,10 +331,10 @@ private void afficher(ActionEvent event) {
     cid.setCellValueFactory(new PropertyValueFactory<>("id"));
     ctitre.setCellValueFactory(new PropertyValueFactory<>("titre_rec"));
     ctype.setCellValueFactory(new PropertyValueFactory<>("type_rec"));
-    cstatus.setCellValueFactory(new PropertyValueFactory<>("statut_rec"));
+    cstatus.setCellValueFactory(new PropertyValueFactory<>("Statut_rec"));
     csusername.setCellValueFactory(new PropertyValueFactory<>("username"));  
-    cdate.setCellValueFactory(new PropertyValueFactory<>("date_rep"));
-    cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rep"));
+    cdate.setCellValueFactory(new PropertyValueFactory<>("date_rec"));
+    cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rec"));
     tvtype.setItems(dataList);
 }
  @FXML

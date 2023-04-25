@@ -5,9 +5,12 @@
  */
 package Service;
 
+
 import Entite.Reclamation;
+import Entite.Statut;
 import Util.DataSource;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +20,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -60,6 +65,54 @@ Connection conn;
             Logger.getLogger(ServiceReclamation.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
+public Statut retrieveStatutById(int statutId) {
+    Statut statut = null;
+    try {
+        String qry = "SELECT * FROM statut WHERE id = ?";
+        System.out.println(qry);
+        conn = DataSource.getInstance().getConn();
+        PreparedStatement stm = conn.prepareStatement(qry);
+        stm.setInt(1, statutId);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            int id = rs.getInt("id");
+            String libelle = rs.getString("libelle");
+            statut = Statut.valueOf(rs.getString("libelle"));
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+
+    return statut;
+}
+public ObservableList<Reclamation> getAllTriTitre() {
+    ObservableList<Reclamation> list = FXCollections.observableArrayList();
+    try {
+        String qry = "SELECT * FROM reclamation ORDER BY titre_rec";
+        System.out.println(qry);
+        conn = DataSource.getInstance().getConn();
+        Statement stm = conn.createStatement();
+        ResultSet rs = stm.executeQuery(qry);
+        while (rs.next()) {
+            String titre_rec = rs.getString("titre_rec");
+            String type_rec = rs.getString("type_rec");
+            Date date_rec = rs.getDate("date_rec");
+            String contenu_rec = rs.getString("contenu_rec");
+            int statut_rec_id = rs.getInt("statut_rec"); // Assuming statut_rec is an integer representing the ID of the Statut
+            // Retrieve the Statut object based on the statut_rec_id, e.g., using a DAO or any other means
+            Statut statut_rec = retrieveStatutById(statut_rec_id); // Update this line with your actual method to retrieve Statut object
+            String username = rs.getString("username");
+            Reclamation a = new Reclamation(titre_rec, type_rec, date_rec, contenu_rec, statut_rec, username);
+            list.add(a);
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+
+    return list;
+}
+
+
 
     @Override
     public void supprimer(int id) throws Exception {
@@ -86,6 +139,7 @@ Connection conn;
                 r.setUsername(rs.getString("username"));
                 r.setType_rec(rs.getString("type_rec"));
                 r.setTitre_rec(rs.getString("titre_rec"));
+                r.setStatut_rec(Statut.valueOf(rs.getString("statut_rec")));
                 r.setId(rs.getInt("id"));
                 lr.add(r);
                 
@@ -107,7 +161,7 @@ Connection conn;
             r.setType_rec(rs.getString("type_rec"));
             r.setDate_rec(rs.getDate("date_rec"));
             r.setContenu_rec(rs.getString("contenu_rec"));
-            r.setStatut_rec(rs.getString("statut_rec"));
+            r.setStatut_rec(Statut.valueOf(rs.getString("statut_rec")));
             r.setUsername(rs.getString("username"));
             return r;
         }
@@ -129,5 +183,28 @@ Connection conn;
             return 0;
         }
     }
-    
+    public List<Reclamation> search(String fieldName, String value) {
+        List<Reclamation> result = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM `reclamation` WHERE " + fieldName + " LIKE ?";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, "%" + value + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Reclamation r = new Reclamation();
+                r.setDate_rec(rs.getDate("date_rec"));
+                r.setContenu_rec(rs.getString("contenu_rec"));
+                r.setUsername(rs.getString("username"));
+                r.setType_rec(rs.getString("type_rec"));
+                r.setTitre_rec(rs.getString("titre_rec"));
+                r.setStatut_rec(Statut.valueOf(rs.getString("statut_rec")));
+                r.setId(rs.getInt("id"));
+                result.add(r);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceReclamation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }
+    

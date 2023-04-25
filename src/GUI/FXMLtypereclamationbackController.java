@@ -6,6 +6,7 @@
 package GUI;
 
 import Entite.Repons;
+import Entite.Statut;
 import Service.ServiceReclamation;
 import Service.ServiceRepons;
 import gamegalaxy1.FXMain;
@@ -79,20 +80,27 @@ public class FXMLtypereclamationbackController implements Initializable {
         data.addAll(str.getAllTitre());
         reclamant.setItems(data);
         displayData();
+        tfdate.setValue(LocalDate.now());
          
     }
     
-    @FXML
+@FXML
 private void ajouter(ActionEvent event) {
     // Get the values from the UI controls
+    if (controleDeSaisie().length() > 0) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Erreur ajout reclamation");
+        alert.setContentText(controleDeSaisie());
+        alert.showAndWait();
+    } else {
     int reclamationId = str.getReclamationByTitre(reclamant.getSelectionModel().getSelectedItem().toString());
-    String statusRep = tfstatus.getText();
+    
     String contenuRep = tfdesc.getText();
     LocalDate localDate = tfdate.getValue();
-    Date dateRep = Date.valueOf(localDate);
+    java.sql.Date dateRep = java.sql.Date.valueOf(localDate);
 
     // Create a new Repons object with the entered values
-    Repons newRepons = new Repons(reclamationId, dateRep, contenuRep, statusRep);
+    Repons newRepons = new Repons(reclamationId, dateRep, contenuRep,Statut.TRAITE);
     
     // Call the add method and refresh the table view
     sre.ajouter(newRepons);
@@ -100,10 +108,12 @@ private void ajouter(ActionEvent event) {
     
     // Clear the UI controls
     reclamant.getSelectionModel().clearSelection();
-    tfstatus.clear();
+ 
     tfdesc.clear();
     tfdate.setValue(null);
 }
+}
+
 
     
     
@@ -121,14 +131,14 @@ private void modifier(ActionEvent event) {
     // Get the updated values from the UI controls
     System.out.println("test");
     int reclamationId = str.getReclamationByTitre(reclamant.getSelectionModel().getSelectedItem().toString());
-    String statusRep = tfstatus.getText();
+     
     String contenuRep = tfdesc.getText();
     LocalDate localDate = tfdate.getValue();
     Date dateRep = Date.valueOf(localDate);
     
     // Update the selected Repons object
     selectedRepons.setId_reclamation_id(reclamationId);
-    selectedRepons.setStatus_rep(statusRep);
+    selectedRepons.setStatus_rep(Statut.TRAITE);
     selectedRepons.setContenu_rep(contenuRep);
     selectedRepons.setDate_rep(dateRep);
     
@@ -163,7 +173,13 @@ private void displayData() {
     tvtype.setItems(dataList);
 }
     
-
+public String controleDeSaisie(){
+        String erreur="";
+        if(tfdesc.getText().trim().isEmpty()){
+            erreur+="Description vide!\n";
+        }
+        return erreur;
+    }
     @FXML
     private void gotogstrec(ActionEvent event) {
         Stage stageclose=(Stage)((Node)event.getSource()).getScene().getWindow();

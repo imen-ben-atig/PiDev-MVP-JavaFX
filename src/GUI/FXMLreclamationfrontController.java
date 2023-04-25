@@ -6,6 +6,7 @@
 package GUI;
 
 import Entite.Reclamation;
+import Entite.Statut;
 import Service.ServiceReclamation;
 import gamegalaxy1.FXMain;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class FXMLreclamationfrontController implements Initializable {
         r.setTitre_rec(tftitre.getText());
         r.setContenu_rec(tadesc.getText());
         r.setType_rec(tftype.getText());
-        r.setStatut_rec(tfstatut.getText());
+        r.setStatut_rec(Statut.NON_TRAITE);
         r.setUsername(tfusername.getText());
         Date date = Date.valueOf(localDate);
         r.setDate_rec(date);
@@ -119,9 +120,6 @@ public class FXMLreclamationfrontController implements Initializable {
         }
         if(tfusername.getText().trim().isEmpty()){
             erreur+="Username vide!\n";
-        }
-        if(tfstatut.getText().trim().isEmpty()){
-            erreur+="Status vide!\n";
         }
         if(tadesc.getText().trim().isEmpty()){
             erreur+="Description vide!\n";

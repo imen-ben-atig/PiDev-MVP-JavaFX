@@ -7,6 +7,7 @@ package Service;
 
 import Entite.Reclamation;
 import Entite.Repons;
+import Entite.Statut;
 import Util.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -82,7 +83,7 @@ public class ServiceRepons implements Iservice<Repons>{
                 Repons re=new Repons();
                 re.setId_reclamation_id(rs.getInt("id_reclamation_id"));
                 re.setDate_rep(rs.getDate("date_rep"));
-                re.setStatus_rep(rs.getString("status_rep"));
+                re.setStatus_rep(Statut.valueOf(rs.getString("status_rep")));
                 re.setContenu_rep(rs.getString("contenu_rep"));
                 re.setId(rs.getInt("id"));
                 lre.add(re);
