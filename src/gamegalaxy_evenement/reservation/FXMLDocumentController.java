@@ -2,7 +2,10 @@ package gamegalaxy_evenement.reservation;
 
 import Entities.Evenement;
 import Services.EvenementService;
-
+import Entities.Reservation;
+import Services.ReservationService;
+import Services.UserService;
+import Entities.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -17,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,42 +36,49 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private TableView<Evenement> tableview;
+    private TabPane tabPane;
 
+    /////////////////////////// EVENEMENTS TAB ////////////////////////////////
+    @FXML
+    private Tab tabEvenements;
+    @FXML
+    private Label showingLabel;
+    @FXML
+    private TableView<Evenement> tableview;
     @FXML
     private TableColumn<Evenement, Integer> colid;
-
     @FXML
     private TableColumn<Evenement, String> colnom;
-
     @FXML
     private TableColumn<Evenement, String> coldesc;
-
     @FXML
     private TableColumn<Evenement, Integer> colduree;
-
     @FXML
     private TableColumn<Evenement, Integer> colcap;
-
     @FXML
     private TableColumn<Evenement, String> coltype;
     @FXML
     private TableColumn<Evenement, String> coldate;
-
     @FXML
     private TextField IDTextfield;
+    @FXML
+    private Button calendarBtn;
     @FXML
     private TextField NOM;
     @FXML
@@ -78,7 +91,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField CAP;
     @FXML
     private TextField TYPE;
-    // File selection
     @FXML
     private Label IMG;
     @FXML
@@ -97,14 +109,55 @@ public class FXMLDocumentController implements Initializable {
     private Spinner<Integer> CAP_SPINNER;
     @FXML
     private ChoiceBox<String> TYPE_CB;
-
-    private ObservableList<Evenement> observableList;
-
     @FXML
     private Button showBtn;
+    private ObservableList<Evenement> observableList;
+
+    ///////////////// RESERVATION TAB ///////////////////////
+    @FXML
+    private Tab tabReservations;
+    @FXML
+    private Button showReservationsBtn;
+    @FXML
+    private Label errorLabel_res;
+    @FXML
+    private TextField IDTextfield_res;
+    @FXML
+    private DatePicker DATEPICKER_res;
+    @FXML
+    private ChoiceBox<User> CB_MEMBRE;
+    @FXML
+    private ChoiceBox<Evenement> CB_EVENT;
+    @FXML
+    private Button addButton_res;
+    @FXML
+    private Button deleteButton_res;
+    @FXML
+    private Button updateButton_res;
+    @FXML
+    private TableView<Reservation> tableview_res;
+    @FXML
+    private TableColumn<?, ?> colid_res;
+    @FXML
+    private TableColumn<?, ?> coldate_res;
+    @FXML
+    private TableColumn<?, ?> colmembre;
+    @FXML
+    private TableColumn<?, ?> colevent;
+    @FXML
+    private Button deselectBtn_res;
+    @FXML
+    private Button refreshBtn_res;
+
+    private ObservableList<Reservation> observableList_res;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initTabEvenements();
+        initTabReservations();
+    }
+
+    private void initTabEvenements() {
         // Load events from database into the tableview
         EvenementService dao = new EvenementService();
         try {
@@ -134,6 +187,10 @@ public class FXMLDocumentController implements Initializable {
         addButton.setDisable(false);
         DATEPICKER.setValue(java.time.LocalDate.now());
         IDTextfield.setDisable(true);
+        showReservationsBtn.setDisable(true);
+
+        IDTextfield.setVisible(false);
+       
         // Set ChoiceBox options (string values) and default string value: Choices are:
         // Social, Gaming, Tournament, Meetup. Default is value: Social
         TYPE_CB.getItems().addAll("Social", "Gaming", "Tournament", "Meetup");
@@ -143,6 +200,8 @@ public class FXMLDocumentController implements Initializable {
         // Set Spinner values and default value: 1, default value: 1
         DUREE_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, 4));
         CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, 100));
+
+        // INITIALIZING THE INPUT FIELDS
 
         // Listen for selection changes and show the evenement details when changed.
         // newSelection is the newly selected item, or null if there is no selection, it
@@ -165,6 +224,132 @@ public class FXMLDocumentController implements Initializable {
                 IMG.setText(newSelection.getImage());
             }
         });
+    }
+
+    private void initTabReservations() {
+        // Load events from database into the tableview
+        ReservationService dao = new ReservationService();
+        UserService dao2 = new UserService();
+        EvenementService dao3 = new EvenementService();
+
+        try {
+            // Get the ArrayList from the service
+            ArrayList<Reservation> reservations = dao.afficherAll();
+
+            // Convert the ArrayList to an ObservableList
+            observableList_res = FXCollections.observableArrayList(reservations);
+
+            // Set the ObservableList as the data source for the TableView
+            tableview_res.setItems(observableList_res);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Set cell value factories for the table columns
+        colid_res.setCellValueFactory(new PropertyValueFactory<>("id"));
+        coldate_res.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colmembre.setCellValueFactory(new PropertyValueFactory<>("res_user"));
+        colevent.setCellValueFactory(new PropertyValueFactory<>("res_evenement"));
+        updateButton_res.setDisable(true);
+        deleteButton_res.setDisable(true);
+        addButton_res.setDisable(false);
+        DATEPICKER_res.setValue(java.time.LocalDate.now());
+        DATEPICKER_res.setDisable(true);
+
+        IDTextfield_res.setVisible(false);
+
+        //Clear all comboboxes and their options
+        CB_MEMBRE.getItems().clear();
+        CB_EVENT.getItems().clear();
+
+        // Set CB_MEMBRE options (string values) and default string value: Choices are:
+        // get all the user IDs from the database
+
+        try {
+            ArrayList<User> users = dao2.getAllUsers();
+
+            for (User user : users) {
+                CB_MEMBRE.getItems().add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // Set CB_EVENT options (string values) and default string value: Choices are:
+        // get all the event IDs from the database
+        try {
+            ArrayList<Evenement> evenements = dao3.afficherAll();
+
+            for (Evenement evenement : evenements) {
+                CB_EVENT.getItems().add(evenement);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        IDTextfield_res.setDisable(true);
+        // Set errorLabel_res text color to red
+        errorLabel_res.setTextFill(Color.RED);
+        // Set errorLabel_res to invisible
+        errorLabel_res.setVisible(false);
+
+        // Listen for selection changes and show the evenement details when changed.
+        // newSelection is the newly selected item, or null if there is no selection, it
+        // is used to update the textfield, in method updateItem
+
+        tableview_res.getSelectionModel().selectedItemProperty()
+                .addListener((obs, oldSelection_res, newSelection_res) -> {
+                    if (newSelection_res != null) {
+                        updateButton_res.setDisable(false);
+                        deleteButton_res.setDisable(false);
+                        addButton_res.setDisable(true);
+                        IDTextfield_res.setDisable(true);
+                        IDTextfield_res.setText(String.valueOf(newSelection_res.getId()));
+                        CB_MEMBRE.setValue(newSelection_res.getRes_user());
+                        CB_EVENT.setValue(newSelection_res.getRes_evenement());
+                        DATEPICKER_res.setValue(java.time.LocalDate.parse(newSelection_res.getDate()));
+                    }
+
+                });
+    }
+
+    @FXML
+    private void showCalendar(ActionEvent event) {
+
+        try {
+            Stage stage = (Stage) (calendarBtn.getScene().getWindow());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fullCalendar.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            // Get the controller and add the calendar view to it
+            Controller controller = loader.getController();
+            controller.calendarPane.getChildren().add(new FullCalendarView(YearMonth.now()).getView());
+            stage.show();
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /*
+         * Evenement selectedEvent = tableview.getSelectionModel().getSelectedItem();
+         * if (selectedEvent != null) {
+         * try {
+         * FXMLLoader loader = new
+         * FXMLLoader(getClass().getResource("ShowEvenement_Window.fxml"));
+         * Parent root = loader.load();
+         * Stage stage = new Stage();
+         * stage.setScene(new Scene(root));
+         * stage.show();
+         * ShowEvenement_WindowController controller = loader.getController();
+         * 
+         * controller.initData(selectedEvent);
+         * 
+         * } catch (IOException ex) {
+         * Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE,
+         * null, ex);
+         * }
+         * }
+         */
 
     }
 
@@ -283,7 +468,7 @@ public class FXMLDocumentController implements Initializable {
     // selectItem(): When row is selected, Get the selected row and set the values
     // of the selected row to the input fields.
     @FXML
-    private void selectItem() {
+    private Evenement selectItem() {
         // Get the selected row
         Evenement selectedEvent = tableview.getSelectionModel().getSelectedItem();
         // If there is a selected row
@@ -309,11 +494,13 @@ public class FXMLDocumentController implements Initializable {
             CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, cap));
             TYPE_CB.setValue(type);
             IMG.setText(img);
+            showReservationsBtn.setDisable(false);
 
             // Disable add button
             addButton.setDisable(true);
             showBtn.setDisable(false);
         }
+        return selectedEvent;
     }
 
     // deselect(): Method called when deselectBtn is clicked, it deselects the
@@ -339,9 +526,9 @@ public class FXMLDocumentController implements Initializable {
         // Set datepicker to today
         DATEPICKER.setValue(java.time.LocalDate.now());
 
-        // Set add button text to "Dupliquer"
         addButton.setText("Add");
         showBtn.setDisable(true);
+        showReservationsBtn.setDisable(true);
 
     }
 
@@ -396,19 +583,19 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private Boolean checkIfDateIsPrior(){
+    private Boolean checkIfDateIsPrior() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = DATEPICKER.getValue().format(formatter).toString();
         LocalDate date1 = LocalDate.parse(date);
         LocalDate date2 = LocalDate.now();
-        if(date1.isBefore(date2)){
+        if (date1.isBefore(date2)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Date is prior to today.");
             alert.setContentText("Please choose a date after today.");
             alert.showAndWait();
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -430,5 +617,182 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableview.refresh();
+    }
+
+    @FXML
+    void addItem_res(ActionEvent event) {
+        ReservationService dao = new ReservationService();
+        try {
+
+            Reservation reservation = new Reservation();
+            // DatePicker formatted as yyyy-mm-dd
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = DATEPICKER_res.getValue().format(formatter).toString();
+            reservation.setDate(date);
+            reservation.setRes_user(CB_MEMBRE.getValue());
+            reservation.setRes_evenement(CB_EVENT.getValue());
+            
+            if(!checkUserAlreadyReserved() )
+            dao.ajouter(reservation);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        refresh_res();
+    }
+
+    @FXML
+    void deleteItem_res() {
+        ReservationService dao = new ReservationService();
+        Reservation selectedReservation = selectItem_res();
+        if (selectedReservation != null) {
+            try {
+                dao.delete(selectedReservation.getId());
+                // tableview_res.getItems().remove(selectedReservation);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            refresh_res();
+        }
+    }
+
+    @FXML
+    void refresh_res() {
+
+        deselectItem_res();
+        initTabReservations();
+
+    }
+
+    @FXML
+    void updateItem_res() {
+        ReservationService dao = new ReservationService();
+        Reservation selectedReservation = selectItem_res();
+        if (selectedReservation != null) {
+            try {
+                dao.update(selectedReservation);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            refresh_res();
+        }
+
+    }
+
+    Reservation selectItem_res() {
+        ReservationService dao = new ReservationService();
+        // Create a new Reservation by getting it from the database by ID from the
+        // column colid_res
+        Reservation selectedReservation = null;
+        try {
+            selectedReservation = dao.getReservationById(tableview_res.getSelectionModel().getSelectedItem().getId());
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            System.out.println("Erreur dans la récupération de la réservation");
+            return null;
+
+        }
+        // Set the values of the input fields
+        IDTextfield_res.setText(Integer.toString(selectedReservation.getId()));
+        DATEPICKER_res.setValue(LocalDate.parse(selectedReservation.getDate()));
+        CB_MEMBRE.setValue(selectedReservation.getRes_user());
+        CB_EVENT.setValue(selectedReservation.getRes_evenement());
+        // Update the update and delete buttons to enable them
+        updateButton_res.setDisable(false);
+        deleteButton_res.setDisable(false);
+        addButton_res.setDisable(true);
+
+        return selectedReservation;
+    }
+
+    @FXML
+    void deselectItem_res() {
+        // Clear the selection
+        tableview_res.getSelectionModel().clearSelection();
+
+        // Disable the update, del, add buttons
+        updateButton_res.setDisable(true);
+        deleteButton_res.setDisable(true);
+        addButton_res.setDisable(false);
+
+        // Clear the input fields
+        IDTextfield_res.setText("");
+        DATEPICKER_res.setValue(LocalDate.now());
+        CB_MEMBRE.setValue(null);
+        CB_EVENT.setValue(null);
+        showingLabel.setText("Showing: all reservations.");
+    }
+
+    // Method to change to tab reservations and then only show the reservations of
+    // the selected evenement
+    @FXML
+    void showReservations() {
+        Evenement selectedEvent = selectItem();
+        if (selectedEvent != null) {
+            showingLabel.setText("Showing: Reservations for " + selectedEvent.getNom() + ".");
+            tabPane.getSelectionModel().select(tabReservations);
+            ReservationService dao = new ReservationService();
+            try {
+                // Get the ArrayList from the service
+                ArrayList<Reservation> reservations = dao.afficherAll();
+                // Convert the ArrayList to an ObservableList
+                observableList_res = FXCollections.observableArrayList(reservations);
+                // Set the ObservableList as the data source for the TableView
+                tableview_res.setItems(observableList_res);
+                // Filter the tableview to only show the reservations of the selected evenement
+                FilteredList<Reservation> filteredData = new FilteredList<>(observableList_res, p -> true);
+                filteredData.setPredicate(reservation -> {
+                    if (reservation.getRes_evenement().getId() == selectedEvent.getId()) {
+                        return true;
+                    }
+                    return false;
+                });
+                SortedList<Reservation> sortedData = new SortedList<>(filteredData);
+                sortedData.comparatorProperty().bind(tableview_res.comparatorProperty());
+                tableview_res.setItems(sortedData);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tableview_res.refresh();
+        }
+    }
+
+    //To check if there is already a reservation in the database with the same inputted User and Event in CB_MEMBRE and CB_EVENT
+    private boolean checkUserAlreadyReserved()
+    {
+        ReservationService dao = new ReservationService();
+        try {
+            // Get the ArrayList from the service
+            ArrayList<Reservation> reservations = dao.afficherAll();
+            // Convert the ArrayList to an ObservableList
+            observableList_res = FXCollections.observableArrayList(reservations);
+            // Set the ObservableList as the data source for the TableView
+            tableview_res.setItems(observableList_res);
+            // Filter the tableview to only show the reservations of the selected evenement
+            FilteredList<Reservation> filteredData = new FilteredList<>(observableList_res, p -> true);
+            filteredData.setPredicate(reservation -> {
+                if (reservation.getRes_evenement().getId() == CB_EVENT.getValue().getId() && reservation.getRes_user().getId() == CB_MEMBRE.getValue().getId()) {
+                    return true;
+                }
+                return false;
+            });
+            SortedList<Reservation> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(tableview_res.comparatorProperty());
+            tableview_res.setItems(sortedData);
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(tableview_res.getItems().size() > 0)
+        {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("User already has a reservation for this event.");
+            alert.setContentText("Please select a different user or event.");
+            alert.showAndWait();
+            return true;
+        }
+        return false;
+
     }
 }

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GameGalaxy_EvenementReservation",
+            "request": "launch",
+            "mainClass": "gamegalaxy_evenement.reservation.GameGalaxy_EvenementReservation",
+            "projectName": "PiDev-MVP-JavaFX_3942b6f3"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -36,6 +36,18 @@ public class Evenement {
         this.image = image;
     }
 
+    public Evenement(int id) {
+        this.id = id;
+        //Set everything else to empty strings and zero
+        this.nom = "";
+        this.description = "";
+        this.duree = 0;
+        this.capacite = 0;
+        this.type = "";
+        this.image = "";
+    }
+
+
     public Evenement(String nom, String description, int duree, int capacite, String type, String image) {
         this.nom = nom;
         this.description = description;
@@ -122,7 +134,7 @@ public String getDate() {
     
     @Override
     public String toString() {
-        return "Evenement{" + "id=" + id + ", nom=" + nom + '}';
+        return nom + "["+ date +"]";
     }
 
    

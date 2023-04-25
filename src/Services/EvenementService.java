@@ -21,7 +21,7 @@ public class EvenementService {
     
     private Connection con = MyConnection.getInstance().getConnection();
 
-    public void ajouter(Evenement E) throws SQLException { //NE9SA DATE
+    public void ajouter(Evenement E) throws SQLException { 
         String requete = "INSERT INTO evenement (nom, date, description, duree, capacite, type, image) VALUES (?, ?, ?, ?, ?, ? ,?)";
         PreparedStatement pst = con.prepareStatement(requete);
         pst.setString(1, E.getNom());
@@ -48,7 +48,7 @@ public class EvenementService {
         pst.setString(7, E.getImage());
         pst.setInt(8, E.getId());
         pst.executeUpdate();
-        // COMPLETE THIS METHOD
+        
         System.out.println("Evenement modifié avec succès !");
     }
 
