@@ -17,8 +17,8 @@
       </ImageView>
       <TextField fx:id="tftitre" layoutX="244.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" promptText="Titre" />
       <TextArea fx:id="tadesc" layoutX="244.0" layoutY="133.0" prefHeight="200.0" prefWidth="200.0" promptText="Description" />
-      <Button id="dark" layoutX="260.0" layoutY="411.0" mnemonicParsing="false" onAction="#ajouter" stylesheets="@../../stylesheet.css" text="Ajouter reclamation" />
-      <Button id="green" layoutX="522.0" layoutY="20.0" mnemonicParsing="false" onAction="#gotousergstreclam" stylesheets="@../../stylesheet.css" text="Gerer mes reclamation" />
+      <Button layoutX="260.0" layoutY="411.0" mnemonicParsing="false" onAction="#ajouter" text="Ajouter reclamation" />
+      <Button id="green" layoutX="522.0" layoutY="20.0" mnemonicParsing="false" onAction="#gotousergstreclam" text="Gerer mes reclamation" />
       <ImageView fx:id="img" fitHeight="150.0" fitWidth="200.0" layoutX="472.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="tftype" layoutX="244.0" layoutY="65.0" prefHeight="25.0" prefWidth="200.0" promptText="Type" />
       <DatePicker fx:id="tfdate" layoutX="246.0" layoutY="99.0" prefHeight="25.0" prefWidth="200.0" />

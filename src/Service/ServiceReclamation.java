@@ -206,5 +206,33 @@ public ObservableList<Reclamation> getAllTriTitre() {
         }
         return result;
     }
+   
+    
+    
+    
+    
+    
+    public List<Reclamation> affichage_trie() {
+ List<Reclamation> lr=new ArrayList<>();
+        try {
+            String query="SELECT * FROM `reclamation` ORDER BY  username" ;
+            Statement st=conn.createStatement();
+            ResultSet rs=st.executeQuery(query);
+            while(rs.next()){
+                Reclamation r=new Reclamation();
+                r.setDate_rec(rs.getDate("date_rec"));
+                r.setContenu_rec(rs.getString("contenu_rec"));
+                r.setUsername(rs.getString("username"));
+                r.setType_rec(rs.getString("type_rec"));
+                r.setTitre_rec(rs.getString("titre_rec"));
+                r.setStatut_rec(Statut.valueOf(rs.getString("statut_rec")));
+                r.setId(rs.getInt("id"));
+                lr.add(r);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceReclamation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lr;    }
 }
     

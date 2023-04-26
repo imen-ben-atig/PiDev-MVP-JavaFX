@@ -8,9 +8,19 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GameGalaxy1.jar" size="120907" download="eager" />
+    <jar href="GameGalaxy1.jar" size="121956" download="eager" />
+    <jar href="lib\commons-codec-1.15.jar" size="353793" download="eager" />
+    <jar href="lib\commons-io-2.7.jar" size="276413" download="eager" />
+    <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="lib\httpclient-4.5.6.jar" size="767140" download="eager" />
+    <jar href="lib\httpcore-4.4.10.jar" size="326356" download="eager" />
     <jar href="lib\itextpdf-5.5.9.jar" size="2287148" download="eager" />
+    <jar href="lib\jackson-annotations-2.10.3.jar" size="68079" download="eager" />
+    <jar href="lib\jackson-core-2.10.3.jar" size="349108" download="eager" />
+    <jar href="lib\jackson-databind-2.10.3.jar" size="1404171" download="eager" />
+    <jar href="lib\jfoenix.jar" size="2401594" download="eager" />
     <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
+    <jar href="lib\twilio-7.48.0.jar" size="3732520" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="GameGalaxy1" >
     <param name="requiredFXVersion" value="8.0+"/>

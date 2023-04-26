@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Entite.Reclamation;
 import Entite.Repons;
 import Entite.Statut;
 import Service.ServiceReclamation;
@@ -86,6 +87,8 @@ public class FXMLtypereclamationbackController implements Initializable {
     
 @FXML
 private void ajouter(ActionEvent event) {
+    
+    ServiceReclamation service_rec=new ServiceReclamation();
     // Get the values from the UI controls
     if (controleDeSaisie().length() > 0) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -98,13 +101,15 @@ private void ajouter(ActionEvent event) {
     String contenuRep = tfdesc.getText();
     LocalDate localDate = tfdate.getValue();
     java.sql.Date dateRep = java.sql.Date.valueOf(localDate);
-
+Reclamation rec= service_rec.getReclamationById(reclamationId);
+rec.setStatut_rec(Statut.TRAITE);
+    service_rec.modifier(rec, reclamationId);
     // Create a new Repons object with the entered values
-    Repons newRepons = new Repons(reclamationId, dateRep, contenuRep,Statut.TRAITE);
-    
+    Repons newRepons = new Repons(reclamationId, dateRep, contenuRep,Statut.TRAITE);           
     // Call the add method and refresh the table view
     sre.ajouter(newRepons);
     displayData();
+    
     
     // Clear the UI controls
     reclamant.getSelectionModel().clearSelection();
@@ -112,6 +117,8 @@ private void ajouter(ActionEvent event) {
     tfdesc.clear();
     tfdate.setValue(null);
 }
+        
+
 }
 
 
@@ -195,5 +202,5 @@ public String controleDeSaisie(){
             Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

@@ -47,11 +47,13 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Chunk;
 import javafx.scene.control.TableView;
 import Service.ServiceReclamation;
-import gamegalaxy1.FXMain;
+import com.itextpdf.text.pdf.PdfPTable;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -64,6 +66,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -134,6 +137,11 @@ public class FXMLgstreclamationuserController implements Initializable {
     }    
    @FXML
     private void tri(ActionEvent event) {
+       /*  Reclamation p=new Reclamation();*/
+        ServiceReclamation sp = new ServiceReclamation();
+        List<Reclamation> Liste_rec= sp.affichage_trie();
+        ObservableList<Reclamation> obs=FXCollections.observableArrayList(Liste_rec);
+        tvtype.setItems(obs);
             cid.setCellValueFactory(new PropertyValueFactory<>("id_rec"));
     ctitre.setCellValueFactory(new PropertyValueFactory<>("titre_rec"));
     ctype.setCellValueFactory(new PropertyValueFactory<>("type_rec"));
@@ -141,8 +149,7 @@ public class FXMLgstreclamationuserController implements Initializable {
     csusername.setCellValueFactory(new PropertyValueFactory<>("username"));
     cdesc.setCellValueFactory(new PropertyValueFactory<>("contenu_rec"));
     cdate.setCellValueFactory(new PropertyValueFactory<>("date_rec"));
-            Reclamation p=new Reclamation();
-        ServiceReclamation sp = new ServiceReclamation();
+           
     }
 @FXML
 private void display(ActionEvent event) {
@@ -246,67 +253,58 @@ private void modifier(ActionEvent event) {
     tvtype.setItems(dataList);
 }
 @FXML
-private void generatepdf(ActionEvent event) {
-    // Get the data from the form fields
-    String titre = tftitre.getText();
-    String type = tftype.getText();
-    String description = tfdescription.getText();
-    String statut = tfstatut.getText();
-    String username = tfusername.getText();
-    LocalDate date = tfdate.getValue();
-
-    // Create a PDF document
+private void generatepdf(ActionEvent event) throws FileNotFoundException {
     try {
-        // Specify the file name and path for the PDF file
-        String fileName = "reclamation.pdf";
-        File file = new File(fileName);
-        FileOutputStream fos = new FileOutputStream(file);
-
-        // Create a Document object
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50); // Set page size and margins
-        PdfWriter writer = PdfWriter.getInstance(document, fos);
-
-        // Open the document
+        // Create a PDF document
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("reclamations.pdf"));
         document.open();
 
-        // Add the form field data to the document with formatting
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.UNDERLINE);
-        Font labelFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
-        Font valueFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
-
-        Paragraph title = new Paragraph("Réclamation", titleFont);
+        // Add a title to the PDF document
+        Paragraph title = new Paragraph("Liste des Réclamations");
         title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
 
-        document.add(new Chunk("\n"));
-        document.add(new Paragraph("Titre: ", labelFont));
-        document.add(new Paragraph(titre, valueFont));
+        // Add a table to the PDF document
+        PdfPTable table = new PdfPTable(5); // 5 columns
+        table.setWidthPercentage(100); // Set table width to 100% of page width
 
-        document.add(new Paragraph("Type: ", labelFont));
-        document.add(new Paragraph(type, valueFont));
+        // Add table headers
+        table.addCell("Titre");
+        table.addCell("Type");
+        table.addCell("Utilisateur");
+        table.addCell("Description");
+        table.addCell("Date");
 
-        document.add(new Paragraph("Description: ", labelFont));
-        document.add(new Paragraph(description, valueFont));
+        // Add table data from the table view
+        for (Reclamation reclamation : tvtype.getItems()) {
+            table.addCell(reclamation.getTitre_rec());
+            table.addCell(reclamation.getType_rec());
+            table.addCell(reclamation.getUsername());
+            table.addCell(reclamation.getContenu_rec());
+            table.addCell(reclamation.getDate_rec().toString());
+        }
 
-        document.add(new Paragraph("Statut: ", labelFont));
-        document.add(new Paragraph(statut, valueFont));
+        // Add the table to the PDF document
+        document.add(table);
 
-        document.add(new Paragraph("Username: ", labelFont));
-        document.add(new Paragraph(username, valueFont));
-
-        document.add(new Paragraph("Date: ", labelFont));
-        document.add(new Paragraph(date.toString(), valueFont));
-
-        // Close the document
+        // Close the PDF document
         document.close();
 
-        // Show success message
+        // Show a success alert
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Réclamation");
-        alert.setContentText("Génération du PDF effectuée avec succès");
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText("Le rapport des réclamations a été généré avec succès dans un fichier PDF.");
         alert.showAndWait();
-    } catch (DocumentException | IOException ex) {
-        Logger.getLogger(FXMLgstreclamationuserController.class.getName()).log(Level.SEVERE, null, ex);
+
+    } catch (DocumentException | FileNotFoundException e) {
+        // Show an error alert if there's an exception while generating the PDF
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText("Une erreur s'est produite lors de la génération du rapport des réclamations en PDF.");
+        alert.showAndWait();
     }
 }
 
@@ -351,8 +349,20 @@ private void afficher(ActionEvent event) {
         } catch (IOException ex) {
             Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-     
-    
+    }  
+        @FXML
+        private void stat(ActionEvent event) throws IOException {
+           Stage stageclose=(Stage)((Node)event.getSource()).getScene().getWindow();
+        stageclose.close();
+        try {
+            Parent root=FXMLLoader.load(getClass().getResource("/GUI/stat.fxml"));
+            Scene scene = new Scene(root);
+            Stage primaryStage=new Stage();
+            primaryStage.setTitle("Statistique!");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          }
 }

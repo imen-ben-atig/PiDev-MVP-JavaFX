@@ -8,6 +8,7 @@ package GUI;
 import Entite.Reclamation;
 import Entite.Statut;
 import Service.ServiceReclamation;
+import com.twilio.Twilio;
 import gamegalaxy1.FXMain;
 import java.io.IOException;
 import java.net.URL;
@@ -16,9 +17,6 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +31,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 /**
  * FXML Controller class
@@ -57,7 +58,9 @@ public class FXMLreclamationfrontController implements Initializable {
     private TextField tfstatut;
     @FXML
     private TextField tfusername;
-    
+        public static final String ACCOUNT_SID = "ACf59b42860c72bbb9f62190343c7c3";
+
+    public static final String AUTH_TOKEN = "4a05e0d45442ff0dad819f130e49a79b";
     /**
      * Initializes the controller class.
      */
@@ -99,6 +102,7 @@ public class FXMLreclamationfrontController implements Initializable {
             alert.setTitle("Reclamation");
             alert.setContentText("ajout reclamation avec succes");
             alert.showAndWait();
+           sms();
                tftitre.clear();
         tadesc.clear();
         tftype.clear();
@@ -141,5 +145,19 @@ public class FXMLreclamationfrontController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void sms()
+    {
+         String ACCOUNT_SID = "AC7a5eb816b1165309f12c5589afc6b543";
+        String AUTH_TOKEN = "a627254ece27fa3f9542f647f0371cd0";
+         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+           String recipientNumber = "+21651111090";
+        String message = "Une nouvelle reclamation a été ajouté merci de consulter la liste des reclamations pour plus de detail! ";
+        Message twilioMessage = Message.creator(
+                    new PhoneNumber(recipientNumber),
+                    new PhoneNumber("+15676007363"),
+                    message)
+                    .create();
+        System.out.println("SMS envoyé : " + twilioMessage.getSid());
     }
 }
