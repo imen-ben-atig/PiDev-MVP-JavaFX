@@ -8,6 +8,7 @@ package Services;
 import Entities.Reservation;
 import Entities.Evenement;
 import Entities.User;
+import Utils.JavaMailUtil;
 import Utils.MyConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,19 @@ public class ReservationService {
 
         pst.executeUpdate();
         System.out.println("Réservation ajoutée avec succès !");
+        //Send email to user
+        String subject = "Réservation d'événement";
+        //Variable body contains the reservation's details
+        String body= E.getRes_user().getPseudo() + " a réservé l'événement " + E.getRes_evenement().getNom() + " le " + E.getDate();
+        System.out.println("Sending mail...");
+        try{
+            JavaMailUtil.sendMail(E.getRes_user().getEmail(), subject, body);
+        }
+        catch(Exception e){
+            System.out.println("///////////////// Error sending mail /////////////// /n" + e.getMessage());
+        }
+    
+    
     }
 
     public void update(Reservation E) throws SQLException {

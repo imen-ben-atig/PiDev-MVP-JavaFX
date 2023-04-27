@@ -79,6 +79,30 @@ public class EvenementService {
         }
         return EvenementList;
     }
+
+    public Evenement findEvenementById(int id)throws SQLException{
+        Evenement evenement = new Evenement();
+        String requete = "SELECT * FROM evenement WHERE id=?";
+        try {
+            PreparedStatement pst = con.prepareStatement(requete);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                evenement.setId(rs.getInt("id"));
+                evenement.setNom(rs.getString("nom"));
+                evenement.setDate(rs.getString("date"));
+                evenement.setDescription(rs.getString("description"));
+                evenement.setDuree(rs.getInt("duree"));
+                evenement.setCapacite(rs.getInt("capacite"));
+                evenement.setType(rs.getString("type"));
+                evenement.setImage(rs.getString("image"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return evenement;
+    
+    }
     
     
 }

@@ -44,6 +44,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -59,6 +60,8 @@ public class FXMLDocumentController implements Initializable {
     private Tab tabEvenements;
     @FXML
     private Label showingLabel;
+    @FXML
+    private TextField searchTextField;
     @FXML
     private TableView<Evenement> tableview;
     @FXML
@@ -190,7 +193,7 @@ public class FXMLDocumentController implements Initializable {
         showReservationsBtn.setDisable(true);
 
         IDTextfield.setVisible(false);
-       
+
         // Set ChoiceBox options (string values) and default string value: Choices are:
         // Social, Gaming, Tournament, Meetup. Default is value: Social
         TYPE_CB.getItems().addAll("Social", "Gaming", "Tournament", "Meetup");
@@ -199,7 +202,7 @@ public class FXMLDocumentController implements Initializable {
 
         // Set Spinner values and default value: 1, default value: 1
         DUREE_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, 4));
-        CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, 100));
+        CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, 100));
 
         // INITIALIZING THE INPUT FIELDS
 
@@ -219,7 +222,7 @@ public class FXMLDocumentController implements Initializable {
                 DUREE_SPINNER.setValueFactory(
                         new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, newSelection.getDuree()));
                 CAP_SPINNER.setValueFactory(
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, newSelection.getCapacite()));
+                        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, newSelection.getCapacite()));
                 TYPE_CB.setValue(newSelection.getType());
                 IMG.setText(newSelection.getImage());
             }
@@ -259,7 +262,7 @@ public class FXMLDocumentController implements Initializable {
 
         IDTextfield_res.setVisible(false);
 
-        //Clear all comboboxes and their options
+        // Clear all comboboxes and their options
         CB_MEMBRE.getItems().clear();
         CB_EVENT.getItems().clear();
 
@@ -319,12 +322,12 @@ public class FXMLDocumentController implements Initializable {
         try {
             Stage stage = (Stage) (calendarBtn.getScene().getWindow());
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fullCalendar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Calendar.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             // Get the controller and add the calendar view to it
             Controller controller = loader.getController();
-            controller.calendarPane.getChildren().add(new FullCalendarView(YearMonth.now()).getView());
+           // controller.calendarPane.getChildren().add(new FullCalendarView(YearMonth.now()).getView());
             stage.show();
         } catch (Exception ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -491,7 +494,7 @@ public class FXMLDocumentController implements Initializable {
             DATEPICKER.setValue(java.time.LocalDate.parse(date));
             DESC.setText(desc);
             DUREE_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, duree));
-            CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, cap));
+            CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, cap));
             TYPE_CB.setValue(type);
             IMG.setText(img);
             showReservationsBtn.setDisable(false);
@@ -520,7 +523,7 @@ public class FXMLDocumentController implements Initializable {
         NOM.setText("");
         DESC.setText("");
         DUREE_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, 1));
-        CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 500, 50));
+        CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, 50));
         TYPE_CB.setValue("Social");
         IMG.setText("");
         // Set datepicker to today
@@ -625,20 +628,33 @@ public class FXMLDocumentController implements Initializable {
         try {
 
             Reservation reservation = new Reservation();
+
             // DatePicker formatted as yyyy-mm-dd
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String date = DATEPICKER_res.getValue().format(formatter).toString();
             reservation.setDate(date);
+
             reservation.setRes_user(CB_MEMBRE.getValue());
+
             reservation.setRes_evenement(CB_EVENT.getValue());
+
+            if (!checkUserAlreadyReserved()) {
+                dao.ajouter(reservation);
+                refresh_res();
+            }
             
-            if(!checkUserAlreadyReserved() )
-            dao.ajouter(reservation);
+            if (checkIfAllBooked()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Event is fully booked.");
+                alert.setContentText("Please choose another event.");
+                alert.showAndWait();
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        refresh_res();
+
     }
 
     @FXML
@@ -758,9 +774,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    //To check if there is already a reservation in the database with the same inputted User and Event in CB_MEMBRE and CB_EVENT
-    private boolean checkUserAlreadyReserved()
-    {
+    // To check if there is already a reservation in the database with the same
+    // inputted User and Event in CB_MEMBRE and CB_EVENT
+    private boolean checkUserAlreadyReserved() {
         ReservationService dao = new ReservationService();
         try {
             // Get the ArrayList from the service
@@ -772,7 +788,8 @@ public class FXMLDocumentController implements Initializable {
             // Filter the tableview to only show the reservations of the selected evenement
             FilteredList<Reservation> filteredData = new FilteredList<>(observableList_res, p -> true);
             filteredData.setPredicate(reservation -> {
-                if (reservation.getRes_evenement().getId() == CB_EVENT.getValue().getId() && reservation.getRes_user().getId() == CB_MEMBRE.getValue().getId()) {
+                if (reservation.getRes_evenement().getId() == CB_EVENT.getValue().getId()
+                        && reservation.getRes_user().getId() == CB_MEMBRE.getValue().getId()) {
                     return true;
                 }
                 return false;
@@ -783,8 +800,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(tableview_res.getItems().size() > 0)
-        {
+        if (tableview_res.getItems().size() > 0) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText("User already has a reservation for this event.");
@@ -793,6 +809,48 @@ public class FXMLDocumentController implements Initializable {
             return true;
         }
         return false;
+
+    }
+
+    // To check if the reservation inputted has an event that has capacite = 0
+    boolean checkIfAllBooked() {
+        EvenementService dao = new EvenementService();
+        Evenement evenement = null;
+        System.out.println("CB EVENT VALUE === "+CB_EVENT.getValue().getCapacite());
+        try {
+
+            evenement = dao.findEvenementById(CB_EVENT.getValue().getId());
+        } catch (SQLException e) {
+            System.out.println("SQL Exception in checkIfAllBooked()");
+        }
+
+        if (evenement.getCapacite() == 0) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Event is fully booked.");
+            alert.setContentText("Please select a different event.");
+            alert.showAndWait();
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // Runs everytime the user changes the value of searchTextField. It filters
+    // 'tableview' to only show the evenements that match the search.
+    @FXML
+    void search(KeyEvent event) {
+        FilteredList<Evenement> filteredData = new FilteredList<>(observableList, p -> true);
+        filteredData.setPredicate(evenement -> {
+            if (evenement.getNom().toLowerCase().contains(searchTextField.getText().toLowerCase())) {
+                return true;
+            }
+            return false;
+        });
+        SortedList<Evenement> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableview.comparatorProperty());
+        tableview.setItems(sortedData);
 
     }
 }

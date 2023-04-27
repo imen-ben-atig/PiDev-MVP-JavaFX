@@ -20,7 +20,7 @@ public class GameGalaxy_EvenementReservation extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("EvenementsIndexFront.fxml"));
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("caspian.css");
