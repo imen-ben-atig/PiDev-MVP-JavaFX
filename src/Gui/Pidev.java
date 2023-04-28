@@ -16,10 +16,18 @@ import javafx.stage.Stage;
  */
 public class Pidev extends Application {
     
+    private static Pidev instance;
+    public static Pidev getInstance() {
+        if (instance == null) {
+            instance = new Pidev();
+        }
+        return instance;
+    }
+public static Stage mainStage;
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("Produit.fxml"));
         Scene scene = new Scene(root);
         
         stage.setScene(scene);

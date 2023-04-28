@@ -4,16 +4,23 @@
  */
 package Entity;
 
-/**
- *
- * @author Winxspace
- */
+import java.util.List;
+
 public class Categorie {
     private int id;
     private String nom_categorie;
     private int etat;
     private String type;
-    
+    private List<Produit> produits; // Add a list of Produit objects associated with this category
+
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
+    }
+
        public Categorie(){}
 
     public Categorie(int id, String nom_categorie, int etat, String type) {
@@ -63,14 +70,12 @@ public class Categorie {
 
     @Override
     public String toString() {
-        return "Categorie{" + "id=" + id + ", nom_categorie=" + nom_categorie + ", etat=" + etat + ", type=" + type + '}';
+        return "Categorie{" + "id=" + id + ", nom_categorie=" + nom_categorie + ", etat=" + etat + ", type=" + type + ", produits=" + produits + '}';
     }
-    
-       
-    
-    
-    
-    
-    
-    
+
+    public Categorie(int id, String nom_categorie) {
+        this.id = id;
+        this.nom_categorie = nom_categorie;
+    }
 }
+

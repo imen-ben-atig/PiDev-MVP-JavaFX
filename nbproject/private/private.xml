@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Entity/Categorie.java</file>
             <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Service/Produitservice.java</file>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/ControllerProduit.java</file>
             <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Entity/Produit.java</file>
-            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/MainController.java</file>
-            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/Main.fxml</file>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/Front.fxml</file>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/Produit.fxml</file>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/ControllerFront.java</file>
             <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/Pidev.java</file>
-            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Service/IService.java</file>
+            <file>file:/C:/Users/Winxspace/Documents/NetBeansProjects/Pidev/src/Gui/ProduitElement.fxml</file>
         </group>
     </open-files>
 </project-private>

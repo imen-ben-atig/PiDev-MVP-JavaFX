@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- product_element.fxml -->
+<HBox alignment="CENTER" cache="true" prefHeight="154.0" prefWidth="882.0" spacing="50.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets bottom="20.0" top="20.0" />
+   </padding>
+   <children>
+      <VBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="nomLabel" text="Nom" />
+            <Label fx:id="PrixLabel" text="Prix" />
+            <Label fx:id="StockLabel" text="Stock" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="ratingLabel" text="Rating" />
+            <Label fx:id="descriptionLabel" text="Description" prefWidth="200" />
+         </children>
+      </VBox>
+      <ImageView fx:id="imageView" fitHeight="113.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+      </ImageView>
+      <VBox alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="Ajouter Panier" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

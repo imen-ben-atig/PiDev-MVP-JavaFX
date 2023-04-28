@@ -3,65 +3,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Entity;
-import java.time.LocalDate;
 
-
-/**
- *
- * @author Winxspace
- */
 public class Produit {
+    
     private int id;
-    private int id_categorie_id;
     private String nom_produit;
     private float prix;
     private String description;
     private int stock;
     private int rating;
     private String img; 
-    private LocalDate dns;
-        
-    
-     public LocalDate getDns() {
-        return dns;
-    }
-
-    public void setDns(LocalDate dns) {
-        this.dns = dns;
-    }
-    
-    
+    private Categorie categorie;
      
     public Produit(){}
 
-    public Produit(int id, int id_categorie_id, String nom_produit, float prix, String description, int stock, int rating, String img) {
+    public Produit(int id, String nom_produit, float prix, String description, int stock, int rating, String img, Categorie categorie) {
         this.id = id;
-        this.id_categorie_id = id_categorie_id;
         this.nom_produit = nom_produit;
         this.prix = prix;
         this.description = description;
         this.stock = stock;
         this.rating = rating;
         this.img = img;
+        this.categorie = categorie;
     }
 
-    public Produit(int id_categorie_id, String nom_produit, float prix, String description, int stock, int rating, String img) {
-        this.id_categorie_id = id_categorie_id;
+    public Produit(String nom_produit, float prix, String description, int stock, int rating, String img, Categorie categorie) {
         this.nom_produit = nom_produit;
         this.prix = prix;
         this.description = description;
         this.stock = stock;
         this.rating = rating;
         this.img = img;
-    }
-
-    public Produit(String nom_produit, float prix, String description, int stock, int rating, String img) {
-        this.nom_produit = nom_produit;
-        this.prix = prix;
-        this.description = description;
-        this.stock = stock;
-        this.rating = rating;
-        this.img = img;
+        this.categorie = categorie;
     }
 
     public int getId() {
@@ -70,14 +44,6 @@ public class Produit {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getId_categorie_id() {
-        return id_categorie_id;
-    }
-
-    public void setId_categorie_id(int id_categorie_id) {
-        this.id_categorie_id = id_categorie_id;
     }
 
     public String getNom_produit() {
@@ -128,11 +94,16 @@ public class Produit {
         this.img = image;
     }
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
     public String toString() {
-        return "Produit{" + "id=" + id + ", id_categorie_id=" + id_categorie_id + ", nom_produit=" + nom_produit + ", prix=" + prix + ", description=" + description + ", stock=" + stock + ", rating=" + rating + ", image=" + img + '}';
+        return "Produit{" + "id=" + id + ", nom_produit=" + nom_produit + ", prix=" + prix + ", description=" + description + ", stock=" + stock + ", rating=" + rating + ", img=" + img + ", categorie=" + categorie + '}';
     }
-    
- 
-    
 }
