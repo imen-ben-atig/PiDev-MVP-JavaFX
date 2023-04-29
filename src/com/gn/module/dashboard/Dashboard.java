@@ -72,7 +72,7 @@ public class Dashboard implements Initializable {
         myList = listView;
         
         try {
-                URL url = new URL("http://feeds.bbci.co.uk/news/world/rss.xml");
+                URL url = new URL("https://kotaku.com/rss");
                 filesHandler.importFrom(url);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);

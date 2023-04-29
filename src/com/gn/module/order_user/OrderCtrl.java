@@ -123,6 +123,7 @@ public class OrderCtrl implements Initializable{
                  Order C1 = new Order(tmp2.getId(),tmp2.getTotal(), "Cancelled", tmp2.getPayment_id());
                  
                     ser.update(C1);
+                    ////////////////
                     String ACCOUNT_SID = "ACf24faf4bf4c128ad707d87536532ee4c";
                     String AUTH_TOKEN = "6585f51524df6cfe6f8fcdebba4c7e67";
 
@@ -136,6 +137,7 @@ public class OrderCtrl implements Initializable{
                                 message)
                                 .create();
                     System.out.println("SMS envoyé : " + twilioMessage.getSid());
+                    /////////////////////
                      List<Order> list = ser.readAll();
                      ObservableList<Order> cls = FXCollections.observableArrayList();
                      for (Order aux : list)
@@ -267,22 +269,25 @@ public class OrderCtrl implements Initializable{
     
     @FXML
     public void pdf() throws FileNotFoundException, DocumentException{
-        
-        
-    }
-    @FXML
-    public void sendMAIL(){
-        SendMail sm=new SendMail();
         ServiceOrder se=new ServiceOrder();
         try
         {
         List<Order> list = se.readAll();
-        sm.sendMail("yosri.kossontini@esprit.tn","Orderes",list.toString());
+                        Document document = new Document();
+                        PdfWriter.getInstance(document, new FileOutputStream("output_user.pdf"));
+                        document.open();
+                        pdf.addMetaData(document);
+                        pdf.addTitlePage(document, list);
+                        document.close();
         }
         catch (SQLException ex) {
                     System.out.println(ex);
                  }
         
+    }
+    @FXML
+    public void sendMAIL(){
+       
     }
     
     @FXML

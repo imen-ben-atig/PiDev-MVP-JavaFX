@@ -33,7 +33,7 @@ public class pdf {
 
 
 
-private static String FILE = "/Users/MrStealYourMom/Desktop/Beta/pdf/pdf";
+private static String FILE = "C:\\output.pdf";
 
 
  private static Font basicFont = new Font(Font.FontFamily.TIMES_ROMAN, 26,
@@ -49,11 +49,11 @@ private static String FILE = "/Users/MrStealYourMom/Desktop/Beta/pdf/pdf";
             Font.BOLD);
 
     static void addMetaData(Document document) {
-        document.addTitle("Classe ");
-        document.addSubject("Classe");
-        document.addKeywords("Classe, PDF");
-        document.addAuthor("3almni");
-        document.addCreator("3almni");
+        document.addTitle("Cart&Orders ");
+        document.addSubject("Orders");
+        document.addKeywords("Order, PDF");
+        document.addAuthor("imen");
+        document.addCreator("imen");
 
 
 
@@ -64,32 +64,36 @@ private static String FILE = "/Users/MrStealYourMom/Desktop/Beta/pdf/pdf";
         // We add one empty line
         addEmptyLine(preface, 1);
         // Lets write a big header
-        Paragraph title = new Paragraph("3almni Platforme", basicFont);
+        Paragraph title = new Paragraph("MVP Platforme", basicFont);
         title.setAlignment(Element.ALIGN_CENTER);
         preface.add(title);
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("List Classe", catFont));
+        preface.add(new Paragraph("Order List ", catFont));
 
         addEmptyLine(preface, 1);
         preface.add(new Paragraph("Date :" + new Date(), redFont));
 
-        Paragraph Info = new Paragraph("Programmation Stm32", smallBold);
+        Paragraph Info = new Paragraph("Order List", smallBold);
         Info.setAlignment(Element.ALIGN_CENTER);
         preface.add(Info);
 
-        addEmptyLine(preface, 3);
+        addEmptyLine(preface, 4);
 
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(4);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Etudent"));
+        PdfPCell c1 = new PdfPCell(new Phrase("#"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Note"));
+        c1 = new PdfPCell(new Phrase("Status"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Remarque"));
+        c1 = new PdfPCell(new Phrase("Total"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Payment id"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
         table.setHeaderRows(1);
@@ -98,6 +102,7 @@ private static String FILE = "/Users/MrStealYourMom/Desktop/Beta/pdf/pdf";
             System.out.println(N.toString());
             table.addCell(String.valueOf(N.getId()));
             table.addCell(N.getStatus());
+            table.addCell(String.valueOf(N.getTotal()));
             table.addCell(N.getPayment_id());
         });
 
