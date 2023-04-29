@@ -37,6 +37,10 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.chart.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.json.JSONObject;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 /**
  *
@@ -119,6 +123,19 @@ public class OrderCtrl implements Initializable{
                  Order C1 = new Order(tmp2.getId(),tmp2.getTotal(), "Cancelled", tmp2.getPayment_id());
                  
                     ser.update(C1);
+                    String ACCOUNT_SID = "ACf24faf4bf4c128ad707d87536532ee4c";
+                    String AUTH_TOKEN = "6585f51524df6cfe6f8fcdebba4c7e67";
+
+                    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+                    String recipientNumber = "+21655311029";
+                    String message = "Hello Imen ben Atig\n, Your order has been cancelled";
+
+                    Message twilioMessage = Message.creator(
+                                new PhoneNumber(recipientNumber),
+                                new PhoneNumber("+16206589212"),
+                                message)
+                                .create();
+                    System.out.println("SMS envoyé : " + twilioMessage.getSid());
                      List<Order> list = ser.readAll();
                      ObservableList<Order> cls = FXCollections.observableArrayList();
                      for (Order aux : list)
