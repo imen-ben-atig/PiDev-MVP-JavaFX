@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Pidev.jar" size="92175" download="eager" />
+    <jar href="Pidev.jar" size="91542" download="eager" />
     <jar href="lib\core-3.4.0.jar" size="539901" download="eager" />
     <jar href="lib\javafx-base-20.0.1-linux.jar" size="755196" download="eager" />
     <jar href="lib\javafx-base-20.0.1.jar" size="302" download="eager" />

@@ -13,27 +13,28 @@
       <Insets bottom="20.0" top="20.0" />
    </padding>
    <children>
-      <VBox alignment="CENTER" spacing="10.0">
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #e5e5e5; -fx-padding: 10px;">
          <children>
-            <Label fx:id="nomLabel" text="Nom" />
-            <Label fx:id="PrixLabel" text="Prix" />
-            <Label fx:id="StockLabel" text="Stock" />
+            <Label fx:id="nomLabel" text="Nom" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+            <Label fx:id="PrixLabel" text="Prix" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+            <Label fx:id="StockLabel" text="Stock" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" spacing="10.0">
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #e5e5e5; -fx-padding: 10px;">
          <children>
-            <Label fx:id="ratingLabel" text="Rating" />
-            <Label fx:id="descriptionLabel" text="Description" prefWidth="200" />
+            <Label fx:id="ratingLabel" text="Rating" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+            
+            <Label fx:id="descriptionLabel" text="Description" prefWidth="200" style="-fx-font-size: 14px;" />
          </children>
       </VBox>
-      <ImageView fx:id="imageView" fitHeight="113.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imageView" fitHeight="113.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding: 10px;">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </ImageView>
-      <VBox alignment="CENTER">
+      <VBox alignment="CENTER" style="-fx-padding: 10px;">
          <children>
-            <Button mnemonicParsing="false" text="Ajouter Panier" />
+            <Button mnemonicParsing="false" text="Ajouter Panier" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;" />
          </children>
       </VBox>
    </children>

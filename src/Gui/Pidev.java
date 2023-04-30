@@ -27,7 +27,7 @@ public static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Produit.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Front.fxml"));
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
