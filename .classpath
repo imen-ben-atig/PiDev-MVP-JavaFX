@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.base.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.media.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx.web.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/openjfx-17.0.6_windows-x64_bin-sdk/javafx-sdk-17.0.6/lib/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/mysql-connector-java-8.0.28/mysql-connector-java-8.0.28.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (14)/core-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (14)/core-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (14)/javase-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (14)/javase-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (14)/jfreesvg-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (15)/jbcrypt-0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/httpclient-4.5.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/jakarta.activation-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/jakarta.mail-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/jjwt-api-0.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/jjwt-impl-0.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/jjwt-jackson-0.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/lib/twilio-9.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (17)/fontawesomefx-commons-9.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ILYESS LASS/Downloads/jar_files (17)/fontawesomefx-fontawesome-4.7.0-9.1.2.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+   <children>
+      <Pane layoutX="300.0" layoutY="-3.0" prefHeight="561.0" prefWidth="322.0" style="-fx-background-color: yellow;">
+         <children>
+            <Label layoutX="54.0" layoutY="14.0" prefHeight="64.0" prefWidth="214.0" text="USER LOGIN">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+            <TextField fx:id="login" layoutX="54.0" layoutY="307.0" prefHeight="38.0" prefWidth="222.0" promptText="Login" style="-fx-background-color: black;">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </TextField>
+            <Button fx:id="regs" layoutX="24.0" layoutY="475.0" mnemonicParsing="false" onAction="#regsitre" prefHeight="25.0" prefWidth="113.0" style="-fx-background-color: black;" text="Registre" textFill="#f2f2f2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="log" layoutX="161.0" layoutY="475.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="113.0" style="-fx-background-color: black;" text="Login" textFill="#f2f2f2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <PasswordField fx:id="passwordField" layoutX="51.0" layoutY="383.0" prefHeight="46.0" prefWidth="220.0" promptText="Password" style="-fx-background-color: black;">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </PasswordField>
+            <ImageView fitHeight="184.0" fitWidth="231.0" layoutX="54.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

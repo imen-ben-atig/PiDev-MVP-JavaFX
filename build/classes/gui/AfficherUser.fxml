@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AfficherUserController">
+   <children>
+      <Label layoutX="74.0" layoutY="14.0" prefHeight="36.0" prefWidth="386.0" text="Bienvenue chez-GameGalaxy" textFill="#eea508">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listView" layoutX="-2.0" layoutY="60.0" prefHeight="466.0" prefWidth="627.0" />
+   </children>
+</AnchorPane>
