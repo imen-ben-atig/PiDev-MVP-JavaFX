@@ -38,8 +38,8 @@ public class HomeBlogController {
         stage.setScene(scene);
         stage.show();
     }
-    
-        @FXML
+
+    @FXML
     private void navigateToBlogListUser(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/BlogListUser.fxml"));
         Scene scene = new Scene(root);

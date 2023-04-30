@@ -26,8 +26,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import entities.Blog;
 import java.io.File;
+import java.util.stream.Collectors;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import service.BlogService;
 
 public class BlogListController {
@@ -62,7 +65,12 @@ public class BlogListController {
     @FXML
     private TableColumn<Blog, Blog> actionsColumn;
 
+    @FXML
+    private TextField searchField;
+
     private BlogService blogService = new BlogService();
+
+    private List<Blog> allBlogs;
 
     @FXML
     private void initialize() {
@@ -108,6 +116,8 @@ public class BlogListController {
                                         File imageFile = new File(imagePath);
                                         Image image = new Image(imageFile.toURI().toString());
                                         controller.selectedImage.setImage(image);
+                                    } else {
+                                        controller.selectedImage.setImage(null);
                                     }
                                     Stage stage = new Stage();
                                     stage.setScene(new Scene(root));
@@ -175,7 +185,34 @@ public class BlogListController {
 
         actionsColumn.setCellFactory(cellFactory);
 
-        readAll();
+        allBlogs = blogService.readAllBlogs();
+        blogTable.getItems().setAll(allBlogs);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                blogTable.getItems().setAll(allBlogs);
+                return;
+            }
+
+            List<Blog> filteredBlogs = allBlogs.stream()
+                    .filter(blog -> blog.getTitle().toLowerCase().contains(newValue.toLowerCase())
+                    || blog.getContent().toLowerCase().contains(newValue.toLowerCase()))
+                    .collect(Collectors.toList());
+
+            blogTable.getItems().setAll(filteredBlogs);
+        });
+    }
+
+    @FXML
+    private void searchBlogs(KeyEvent event) {
+        String searchText = searchField.getText();
+
+        List<Blog> filteredBlogs = allBlogs.stream()
+                .filter(blog -> blog.getTitle().toLowerCase().contains(searchText.toLowerCase())
+                || blog.getContent().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+
+        blogTable.getItems().setAll(filteredBlogs);
     }
 
     @FXML

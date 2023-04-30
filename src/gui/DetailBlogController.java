@@ -17,7 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import service.BlogService;
 import service.CommentService;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,8 +36,49 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileInputStream;
+import com.itextpdf.text.DocumentException;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import entities.Blog;
+import entities.Comment;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.util.Callback;
+import service.BlogService;
+import service.CommentService;
+import util.PdfCreator;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import javafx.embed.swing.SwingFXUtils;
 
 public class DetailBlogController {
 
@@ -73,6 +113,8 @@ public class DetailBlogController {
     private FontAwesomeIconView addcomment;
     @FXML
     private FontAwesomeIconView backToBlogList;
+    @FXML
+    private TextField searchField;
 
     private Blog blog;
     private BlogService blogService = new BlogService();
@@ -142,6 +184,8 @@ public class DetailBlogController {
         };
 
         actionsColumn.setCellFactory(cellFactory);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> searchComments());
+
     }
 
     private void initializeBlogFields() {
@@ -170,6 +214,29 @@ public class DetailBlogController {
     public void setBlog(Blog blog) {
         this.blog = blog;
         initializeBlogFields();
+    }
+
+    @FXML
+    private void searchComments() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        List<Comment> comments = commentService.readCommentsByBlogId(blog.getId());
+        comments = comments.stream()
+                .filter(comment -> comment.getContent().toLowerCase().contains(searchText))
+                .collect(Collectors.toList());
+        commentsTable.getItems().setAll(comments);
+    }
+
+    @FXML
+    private void downloadPDF() {
+        try {
+            String imagePath = blog.getImage();
+            Image image = new Image(new FileInputStream(imagePath));
+            java.awt.image.BufferedImage awtImage = SwingFXUtils.fromFXImage(image, null);
+            com.itextpdf.text.Image pdfImage = com.itextpdf.text.Image.getInstance(awtImage, null);
+            PdfCreator.createPDF(blog.getTitle(), blog.getContent(), pdfImage);
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

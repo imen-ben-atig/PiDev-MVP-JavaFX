@@ -39,9 +39,6 @@ public class BlogListUserController {
     private FontAwesomeIconView close;
 
     @FXML
-    private Button refreshTable;
-
-    @FXML
     private TableView<Blog> blogTable;
 
     @FXML
