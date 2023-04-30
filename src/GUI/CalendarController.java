@@ -1,4 +1,4 @@
-package gamegalaxy_evenement.reservation;
+package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +25,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import Entities.Evenement;
+import Utils.CalendarActivity;
 
 public class CalendarController implements Initializable {
 
@@ -46,16 +47,16 @@ public class CalendarController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateFocus = ZonedDateTime.now();
         today = ZonedDateTime.now();
-        drawCalendar();
-        
+        drawCalendar2();
+
     }
 
-    //Called when backBtn is clicked, it closes the window and returns to the previous view
+    // Called when backBtn is clicked, it closes the window and returns to the
+    // previous view
     @FXML
-    void backToMain(ActionEvent event)
-    {
+    void backToMain(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Evenements_Index_front.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -63,7 +64,6 @@ public class CalendarController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
 
     }
 
@@ -81,6 +81,8 @@ public class CalendarController implements Initializable {
         drawCalendar();
     }
 
+    // Bugged. The calendaractivies are displayed but in every month, not in the
+    // correct months
     private void drawCalendar() {
         year.setText(String.valueOf(dateFocus.getYear()));
         month.setText(String.valueOf(dateFocus.getMonth()));
@@ -133,7 +135,61 @@ public class CalendarController implements Initializable {
                     }
                     if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth()
                             && today.getDayOfMonth() == currentDate) {
-                        rectangle.setStroke(Color.BLUE);
+                        rectangle.setStroke(Color.RED);
+                    }
+                }
+                calendar.getChildren().add(stackPane);
+            }
+        }
+    }
+
+    // Fixed version
+    private void drawCalendar2() {
+        year.setText(String.valueOf(dateFocus.getYear()));
+        month.setText(String.valueOf(dateFocus.getMonth()));
+        double calendarWidth = calendar.getPrefWidth();
+        double calendarHeight = calendar.getPrefHeight();
+        double strokeWidth = 1;
+        double spacingH = calendar.getHgap();
+        double spacingV = calendar.getVgap();
+        // List of activities for a given month
+        Map<Integer, List<CalendarActivity>> calendarActivityMap = getCalendarActivitiesMonth(dateFocus);
+        int monthMaxDate = dateFocus.getMonth().maxLength();
+        // Check for leap year
+        if (dateFocus.getYear() % 4 != 0 && monthMaxDate == 29) {
+            monthMaxDate = 28;
+        }
+        int dateOffset = ZonedDateTime
+                .of(dateFocus.getYear(), dateFocus.getMonthValue(), 1, 0, 0, 0, 0, dateFocus.getZone()).getDayOfWeek()
+                .getValue();
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                StackPane stackPane = new StackPane();
+                Rectangle rectangle = new Rectangle();
+                rectangle.setFill(Color.TRANSPARENT);
+                rectangle.setStroke(Color.BLACK);
+                rectangle.setStrokeWidth(strokeWidth);
+                double rectangleWidth = (calendarWidth / 7) - strokeWidth - spacingH;
+                rectangle.setWidth(rectangleWidth);
+                double rectangleHeight = (calendarHeight / 6) - strokeWidth - spacingV;
+                rectangle.setHeight(rectangleHeight);
+                stackPane.getChildren().add(rectangle);
+                int calculatedDate = (j + 1) + (7 * i);
+                if (calculatedDate > dateOffset) {
+                    int currentDate = calculatedDate - dateOffset;
+                    if (currentDate <= monthMaxDate) {
+                        Text date = new Text(String.valueOf(currentDate));
+                        double textTranslationY = -(rectangleHeight / 2) * 0.75;
+                        date.setTranslateY(textTranslationY);
+                        stackPane.getChildren().add(date);
+                        List<CalendarActivity> calendarActivities = calendarActivityMap.get(currentDate);
+                        if (calendarActivities != null) {
+                            createCalendarActivity(calendarActivities, rectangleHeight, rectangleWidth, stackPane);
+                        }
+                    }
+                    if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth()
+                            && today.getDayOfMonth() == currentDate) {
+                        rectangle.setStroke(Color.RED);
                     }
                 }
                 calendar.getChildren().add(stackPane);
@@ -170,29 +226,31 @@ public class CalendarController implements Initializable {
 
     private Map<Integer, List<CalendarActivity>> createCalendarMap(List<CalendarActivity> calendarActivities) {
         Map<Integer, List<CalendarActivity>> calendarActivityMap = new HashMap<>();
-    
+
         for (CalendarActivity activity : calendarActivities) {
-            int activityDate = activity.getDate().getDayOfMonth();
-            List<CalendarActivity> modifiableList = new ArrayList<>();
-            if (!calendarActivityMap.containsKey(activityDate)) {
-                calendarActivityMap.put(activityDate, modifiableList);
-            } else {
-                List<CalendarActivity> OldListByDate = calendarActivityMap.get(activityDate);
-                calendarActivityMap.put(activityDate, OldListByDate);
+            if (activity.getDate().getMonthValue() == dateFocus.getMonthValue()
+                    && activity.getDate().getYear() == dateFocus.getYear()) {
+                int activityDate = activity.getDate().getDayOfMonth();
+                List<CalendarActivity> modifiableList = new ArrayList<>();
+                if (!calendarActivityMap.containsKey(activityDate)) {
+                    calendarActivityMap.put(activityDate, modifiableList);
+                } else {
+                    List<CalendarActivity> OldListByDate = calendarActivityMap.get(activityDate);
+                    calendarActivityMap.put(activityDate, OldListByDate);
+                }
+                modifiableList.add(activity);
             }
-            modifiableList.add(activity);
         }
-    
+
         return calendarActivityMap;
     }
-    
 
     private Map<Integer, List<CalendarActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
         List<CalendarActivity> calendarActivities = new ArrayList<>();
-        //int year = dateFocus.getYear();
-        //int month = dateFocus.getMonth().getValue();
+        // int year = dateFocus.getYear();
+        // int month = dateFocus.getMonth().getValue();
 
-        //Add evenements to the Calendar
+        // Add evenements to the Calendar
 
         EvenementService dao = new EvenementService();
         List<Evenement> evenements = null;
@@ -202,25 +260,25 @@ public class CalendarController implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        for(Evenement evenement : evenements){
-            //Parse evenement.getDate(), which is a string formatted as "yyyy-MM-dd" to a ZonedDateTme
+        for (Evenement evenement : evenements) {
+            // Parse evenement.getDate(), which is a string formatted as "yyyy-MM-dd" to a
+            // ZonedDateTme
             evenement.getDate();
             int day = Integer.parseInt(evenement.getDate().substring(8, 10));
-            //Convert to single digit int
-            
+            // Convert to single digit int
+
             int year = Integer.parseInt(evenement.getDate().substring(0, 4));
             int month = Integer.parseInt(evenement.getDate().substring(5, 7));
-           
 
-            //Print to console for debug
-            System.out.println(" /////////////////////////////     ///////////////// ///////////Day: " + day + " Month: " + month + " Year: " + year);
-
+            // Print to console for debug
+            //System.out.println(" /////////////////////////////     ///////////////// ///////////Day: " + day
+            //       + " Month: " + month + " Year: " + year);
 
             ZonedDateTime time = ZonedDateTime.of(year, month, day, 0, 0, 0, 0,
                     dateFocus.getZone());
+            System.out.println(time);
             calendarActivities.add(new CalendarActivity(time, evenement.getNom()));
         }
-       
 
         return createCalendarMap(calendarActivities);
     }

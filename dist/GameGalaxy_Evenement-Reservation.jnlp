@@ -2,7 +2,7 @@
 <jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="GameGalaxy_Evenement-Reservation.jnlp">
   <information>
     <title>GameGalaxy_Evenement-Reservation</title>
-    <vendor>Hassène</vendor>
+    <vendor>Hassï¿½ne</vendor>
     <description>null</description>
     <offline-allowed/>
   </information>
@@ -14,6 +14,6 @@
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="GameGalaxy_Evenement-Reservation" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="gamegalaxy_evenement.reservation.GameGalaxy_EvenementReservation"  name="GameGalaxy_Evenement-Reservation" />
+  <jfx:javafx-desc  width="800" height="600" main-class="GUI.GameGalaxy_EvenementReservation"  name="GameGalaxy_Evenement-Reservation" />
   <update check="always"/>
 </jnlp>

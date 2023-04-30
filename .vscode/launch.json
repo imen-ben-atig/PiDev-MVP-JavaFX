@@ -8,20 +8,15 @@
             "type": "java",
             "name": "GameGalaxy_EvenementReservation",
             "request": "launch",
-            "mainClass": "gamegalaxy_evenement.reservation.GameGalaxy_EvenementReservation",
-            "projectName": "PiDev-MVP-JavaFX_3942b6f3"
+            "mainClass": "GameGalaxy_JavaFXApp_main.GameGalaxy_JavaFXApp_main",
+            "projectName": "PiDev-MVP-JavaFX_e7944e47"
         },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
+       
         {
             "type": "java",
             "name": "Launch GameGalaxy_EvenementReservation",
             "request": "launch",
-            "mainClass": "gamegalaxy_evenement.reservation.GameGalaxy_EvenementReservation",
+            "mainClass": "GameGalaxy_JavaFXApp_main.GameGalaxy_JavaFXApp_main",
             "projectName": "GameGalaxy_Evenement-Reservation_bd303c46",
             "vmArgs": "-cp \"C:\\Users\\Hassène\\Documents\\lib\\javafx-sdk-20\\lib\\*\""
         }

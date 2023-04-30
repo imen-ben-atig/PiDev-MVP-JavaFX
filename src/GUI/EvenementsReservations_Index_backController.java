@@ -1,4 +1,4 @@
-package gamegalaxy_evenement.reservation;
+package GUI;
 
 import Entities.Evenement;
 import Services.EvenementService;
@@ -50,7 +50,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class FXMLDocumentController implements Initializable {
+import javafx.scene.Node;
+
+public class EvenementsReservations_Index_backController implements Initializable {
 
     @FXML
     private TabPane tabPane;
@@ -174,7 +176,7 @@ public class FXMLDocumentController implements Initializable {
             tableview.setItems(observableList);
 
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Set cell value factories for the table columns
@@ -246,7 +248,7 @@ public class FXMLDocumentController implements Initializable {
             tableview_res.setItems(observableList_res);
 
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Set cell value factories for the table columns
@@ -276,7 +278,7 @@ public class FXMLDocumentController implements Initializable {
                 CB_MEMBRE.getItems().add(user);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Set CB_EVENT options (string values) and default string value: Choices are:
         // get all the event IDs from the database
@@ -287,7 +289,7 @@ public class FXMLDocumentController implements Initializable {
                 CB_EVENT.getItems().add(evenement);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         IDTextfield_res.setDisable(true);
@@ -326,11 +328,11 @@ public class FXMLDocumentController implements Initializable {
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             // Get the controller and add the calendar view to it
-            Controller controller = loader.getController();
+            //Controller controller = loader.getController();
            // controller.calendarPane.getChildren().add(new FullCalendarView(YearMonth.now()).getView());
             stage.show();
         } catch (Exception ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         /*
@@ -371,9 +373,10 @@ public class FXMLDocumentController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             IMG.setText(selectedFile.getName());
-            // To create a folder in the project directory called "Uploads" if folder
+            // To create a folder in the project directory called "Evenement" if folder
             // doesn't already exist and copy the image
-            File dir = new File("Uploads\\Evenement");
+            
+            File dir = new File("..\\Resouces\\Images\\Uploads\\Evenement");
             if (!dir.exists()) {
                 dir.mkdir();
             }
@@ -381,7 +384,7 @@ public class FXMLDocumentController implements Initializable {
             try {
                 Files.copy(selectedFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -393,17 +396,17 @@ public class FXMLDocumentController implements Initializable {
         Evenement selectedEvent = tableview.getSelectionModel().getSelectedItem();
         if (selectedEvent != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowEvenement_Window.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Evenement_Show_back.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
-                ShowEvenement_WindowController controller = loader.getController();
+                Evenement_Show_backController controller = loader.getController();
 
                 controller.initData(selectedEvent);
 
             } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -433,7 +436,7 @@ public class FXMLDocumentController implements Initializable {
                 refresh();
 
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -448,7 +451,7 @@ public class FXMLDocumentController implements Initializable {
                 dao.delete(selectedEvent.getId());
                 tableview.getItems().remove(selectedEvent);
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 // Get the ArrayList from the service
@@ -461,7 +464,7 @@ public class FXMLDocumentController implements Initializable {
                 tableview.setItems(observableList);
 
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             tableview.refresh();
             deselectItem();
@@ -556,7 +559,7 @@ public class FXMLDocumentController implements Initializable {
                 dao.update(updatedEvent);
 
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             deselectItem();
             refresh();
@@ -617,7 +620,7 @@ public class FXMLDocumentController implements Initializable {
             tableview.setItems(observableList);
 
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tableview.refresh();
     }
@@ -652,7 +655,7 @@ public class FXMLDocumentController implements Initializable {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -666,7 +669,7 @@ public class FXMLDocumentController implements Initializable {
                 dao.delete(selectedReservation.getId());
                 // tableview_res.getItems().remove(selectedReservation);
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             refresh_res();
         }
@@ -688,7 +691,7 @@ public class FXMLDocumentController implements Initializable {
             try {
                 dao.update(selectedReservation);
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             refresh_res();
         }
@@ -768,7 +771,7 @@ public class FXMLDocumentController implements Initializable {
                 sortedData.comparatorProperty().bind(tableview_res.comparatorProperty());
                 tableview_res.setItems(sortedData);
             } catch (SQLException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
             }
             tableview_res.refresh();
         }
@@ -798,7 +801,7 @@ public class FXMLDocumentController implements Initializable {
             sortedData.comparatorProperty().bind(tableview_res.comparatorProperty());
             tableview_res.setItems(sortedData);
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EvenementsReservations_Index_backController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (tableview_res.getItems().size() > 0) {
             Alert alert = new Alert(AlertType.WARNING);
@@ -835,6 +838,19 @@ public class FXMLDocumentController implements Initializable {
             return false;
         }
 
+    }
+
+    @FXML
+    void goToFront(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Evenements_Index_front.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Runs everytime the user changes the value of searchTextField. It filters

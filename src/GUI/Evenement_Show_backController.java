@@ -1,4 +1,4 @@
-package gamegalaxy_evenement.reservation;
+package GUI;
 
 import Entities.Evenement;
 import javafx.fxml.FXML;
@@ -8,10 +8,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ShowEvenement_WindowController implements Initializable {
+public class Evenement_Show_backController implements Initializable {
 
     @FXML
     private Label idLabel;
@@ -56,11 +57,21 @@ public class ShowEvenement_WindowController implements Initializable {
         dureeLabel.setText(String.valueOf(E.getDuree()));
         capaciteLabel.setText(String.valueOf(E.getCapacite()));
         typeLabel.setText(E.getType());
-        String absolute_path = "C:\\Users\\Hassène\\Desktop\\GameGalaxy_Evenement-Reservation\\Uploads\\Evenement\\"
-                + E.getImage();
-        File file = new File(absolute_path);
+
+        try{
+        URL url = getClass().getResource("../Resources/Images/Uploads/Evenement/"+E.getImage());
+        File file = new File(url.getPath());
         Image image = new Image(file.toURI().toString());
         imgDisplay.setImage(image);
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+            
+        
+     
+        
+        
 
     }
 

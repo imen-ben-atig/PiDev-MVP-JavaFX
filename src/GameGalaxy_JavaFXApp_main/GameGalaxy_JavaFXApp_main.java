@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamegalaxy_evenement.reservation;
+package GameGalaxy_JavaFXApp_main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,14 +16,14 @@ import javafx.stage.StageStyle;
  *
  * @author Hassène
  */
-public class GameGalaxy_EvenementReservation extends Application {
+public class GameGalaxy_JavaFXApp_main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("EvenementsIndexFront.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../GUI/EvenementsReservations_Index_back.fxml"));
         
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("caspian.css");
+        //scene.getStylesheets().add("caspian.css");
         stage.setResizable(true);
 
         stage.setScene(scene);

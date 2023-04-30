@@ -1,4 +1,4 @@
-package gamegalaxy_evenement.reservation;
+package GUI;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 

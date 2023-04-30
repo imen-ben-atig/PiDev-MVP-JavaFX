@@ -35,6 +35,23 @@ public class UserService {
         }
         return UserList;
     }
+    public User getUserById(int id){
+        User user = new User();
+        String requete = "SELECT * FROM user WHERE id = ?";
+        try {
+            PreparedStatement pst = con.prepareStatement(requete);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setPseudo(rs.getString("pseudo"));
+                user.setEmail(rs.getString("email"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return user;
+    }
 
 
 }

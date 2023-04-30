@@ -14,7 +14,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -160,6 +162,41 @@ public class ReservationService {
         }
         return reservation;
 
+    }
+
+    public void reserver(User user, Evenement evenement)
+    {
+        Reservation reservation = new Reservation();
+        reservation.setRes_user(user);
+        reservation.setRes_evenement(evenement);
+        //Set date to now
+        Date date = new Date();
+        date.setTime(System.currentTimeMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = formatter.format(date);
+        reservation.setDate(strDate);
+        try {
+            this.ajouter(reservation);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+        //Checks if reservation is made by the user
+    public boolean isReserved(User user, Evenement event){
+        boolean isFound = false;
+        try {
+            ArrayList<Reservation> reservations = this.afficherAll();
+            for (Reservation reservation : reservations) {
+                if (reservation.getRes_user().getId() == user.getId() && reservation.getRes_evenement().getId() == event.getId()) {
+                    isFound = true;
+                    break;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return isFound;
+        
     }
 
 }
