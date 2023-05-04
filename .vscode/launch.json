@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "User module",
+            "request": "launch",
+            "mainClass": "pi_javafx.TestGames",
+            "projectName": "PI_JavaFx_ad40d53f",
+            "vmArgs": "-cp \"C:\\Users\\Hassène\\Documents\\lib\\javafx-sdk-20\\lib\\*\""
+        },
+       
+    ]
+}

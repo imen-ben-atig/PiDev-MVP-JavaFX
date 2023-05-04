@@ -1,146 +1,127 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Entities;
 
-import java.util.Objects;
-
+/**
+ *
+ * @author The Nutorious BIG
+ */
 public class User {
-
-	public User(String firstName, String lastName, String phoneNumber) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", role=" + role + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", image=" + image
-				+ ", status=" + status + "]";
-	}
-
-	private int id;
+    private int id;
     private String email;
-    private String role;
+    private String roles;
     private String password;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String image;
-    private String status;
-
-    public User(int id, String email, String role, String password, String firstName, String lastName,
-			String phoneNumber, String image, String status) {
-		this.id = id;
-		this.email = email;
-		this.role = role;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.image = image;
-		this.status = status;
-	}
-
-    public User() {
-		// TODO Auto-generated constructor stub
-	}
+    private String pseudo;
+    private String addresse;
+    private String date_naissance;
+    private String disable_token;
+    private String activation_token;
+    private String reset_token;
 
 
-	public int getId() {
-        return id;
+    public User(int id, String email, String roles, String password, String pseudo, String addresse,
+            String date_naissance, String disable_token, String activation_token, String reset_token) {
+        this.id = id;
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
+        this.pseudo = pseudo;
+        this.addresse = addresse;
+        this.date_naissance = date_naissance;
+        this.disable_token = disable_token;
+        this.activation_token = activation_token;
+        this.reset_token = reset_token;
     }
 
+    
+    public User(String email, String roles, String password, String pseudo, String addresse, String date_naissance,
+            String disable_token, String activation_token, String reset_token) {
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
+        this.pseudo = pseudo;
+        this.addresse = addresse;
+        this.date_naissance = date_naissance;
+        this.disable_token = disable_token;
+        this.activation_token = activation_token;
+        this.reset_token = reset_token;
+    }
+
+
+    public User() {
+    }
+
+
+    public int getId() {
+        return id;
+    }
     public void setId(int id) {
         this.id = id;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getFirstName() {
-        return firstName;
+    public String getPseudo() {
+        return pseudo;
+    }
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+    public String getAddresse() {
+        return addresse;
+    }
+    public void setAddresse(String addresse) {
+        this.addresse = addresse;
+    }
+    public String getDate_naissance() {
+        return date_naissance;
+    }
+    public void setDate_naissance(String date_naissance) {
+        this.date_naissance = date_naissance;
+    }
+    public String getDisable_token() {
+        return disable_token;
+    }
+    public void setDisable_token(String disable_token) {
+        this.disable_token = disable_token;
+    }
+    public String getActivation_token() {
+        return activation_token;
+    }
+    public void setActivation_token(String activation_token) {
+        this.activation_token = activation_token;
+    }
+    public String getReset_token() {
+        return reset_token;
+    }
+    public void setReset_token(String reset_token) {
+        this.reset_token = reset_token;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
+    public String toString() {
+        return pseudo;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (!Objects.equals(this.status, other.status)) {
-            return false;
-        }
-        return true;
-    }
+    
     
 }
-
