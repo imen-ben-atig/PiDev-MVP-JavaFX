@@ -640,6 +640,54 @@ public class Main implements Initializable {
         title.setText("Cart");
         body.setContent(ViewManager.getInstance().get("Cart"));
     }
+@FXML
+    private void categorie(){
+        title.setText("Categrie");
+        body.setContent(ViewManager.getInstance().get("Categorie"));
+    }
+@FXML
+    private void produit(){
+        title.setText("Produit");
+        body.setContent(ViewManager.getInstance().get("Produit"));
+    }
+@FXML
+    private void produit_user(){
+        title.setText("Produit");
+        body.setContent(ViewManager.getInstance().get("Produit_User"));
+    }
+@FXML
+    private void reclamation_user(){
+        title.setText("Reclamation");
+        body.setContent(ViewManager.getInstance().get("Reclamation_User"));
+    }
+@FXML
+    private void reclamation(){
+        title.setText("Reclamation");
+        body.setContent(ViewManager.getInstance().get("Reclamation"));
+    }
+@FXML
+    private void reponse(){
+        title.setText("Reponse");
+        body.setContent(ViewManager.getInstance().get("Reponse"));
+    }
+
+@FXML
+    private void add_blog(){
+        title.setText("Add Blog");
+        body.setContent(ViewManager.getInstance().get("Add_Blog"));
+    }
+
+
+@FXML
+    private void blog_list(){
+        title.setText("Blog List");
+        body.setContent(ViewManager.getInstance().get("Blog_List"));
+    }
+@FXML
+    private void blog_list_user(){
+        title.setText("Blog List");
+        body.setContent(ViewManager.getInstance().get("Blog_List_User"));
+    }
 
 @FXML
     private void order_user(){
@@ -663,6 +711,22 @@ public class Main implements Initializable {
     private void about(){
         title.setText("About");
         body.setContent(ViewManager.getInstance().get("About"));
+    }
+@FXML
+    private void evenement(){
+        title.setText("Evenement");
+        body.setContent(ViewManager.getInstance().get("Evenement"));
+    }
+
+@FXML
+    private void evenement_back(){
+        title.setText("Evenement");
+        body.setContent(ViewManager.getInstance().get("Evenement_Back"));
+    }
+@FXML
+    private void reservation(){
+        title.setText("Reservation");
+        body.setContent(ViewManager.getInstance().get("Reservation"));
     }
 
     private PopOver pop = new PopOver();

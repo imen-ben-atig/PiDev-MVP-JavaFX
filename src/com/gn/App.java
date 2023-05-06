@@ -42,6 +42,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import com.MVP.Utils.UserSession;
 
 /**
  * Init the app class.
@@ -119,6 +120,7 @@ public class App extends Application {
         load("charts", "scatterchart");
 
         load("main",     "main");
+        load("front",     "Front");
 
         load("profile", "profile");
 
@@ -128,6 +130,19 @@ public class App extends Application {
         load("order", "Order");
         load("order_user", "Order_User");
         load("cart", "Cart");
+        load("categorie", "Categorie");
+        load("produit", "Produit");
+        load("produit_user", "Produit_User");
+        load("reclamation_user", "Reclamation_User");
+        load("reclamation", "Reclamation");
+        load("reponse", "Reponse");
+        load("add_blog", "Add_Blog");
+        load("blog_list", "Blog_List");
+        load("blog_list_user", "Blog_List_User");
+        load("evenement", "Evenement");
+        load("evenement_back", "Evenement_Back");
+        load("reservation", "Reservation");
+        load("user", "Login");
 
 //        System.out.println(ViewManager.getInstance().getSize());
 
@@ -167,11 +182,11 @@ public class App extends Application {
         decorator.initTheme(GNDecorator.Theme.DEFAULT);
 //        decorator.fullBody();
 
-        String log = logged();
-        assert log != null;
-
-        if (log.equals("account") || log.equals("login")) {
-            decorator.setContent(ViewManager.getInstance().get(log));
+        UserSession session = UserSession.getInstance();
+        assert session != null;
+        
+        if (session.getUser() == null) {
+            decorator.setContent(ViewManager.getInstance().get("Login"));
         } else {
             App.decorator.addCustom(userDetail);
             userDetail.setProfileAction(event -> {
@@ -181,7 +196,7 @@ public class App extends Application {
             });
 
             userDetail.setSignAction(event -> {
-                App.decorator.setContent(ViewManager.getInstance().get("login"));
+                App.decorator.setContent(ViewManager.getInstance().get("Login"));
                 section.setLogged(false);
                 SectionManager.save(section);
                 userDetail.getPopOver().hide();
@@ -189,7 +204,11 @@ public class App extends Application {
                 if(Main.popup.isShowing()) Main.popup.hide();
                 App.decorator.removeCustom(userDetail);
             });
+            if(session.getUser().getRoles().equals("['ROLE_ADMIN']")) {
             decorator.setContent(ViewManager.getInstance().get("main"));
+            } else if(session.getUser().getRoles().equals("['ROLE8USER']")) {
+            decorator.setContent(ViewManager.getInstance().get("main"));
+            }
         }
 
         decorator.getStage().setOnCloseRequest(event -> {

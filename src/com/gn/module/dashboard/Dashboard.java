@@ -78,14 +78,16 @@ public class Dashboard implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+     /*  ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("Sun", 20),
                 new PieChart.Data("IBM", 12),
                 new PieChart.Data("HP", 25),
                 new PieChart.Data("Dell", 22),
                 new PieChart.Data("Apple", 30)
         );
+
         pieChart.setData(pieChartData);
+
         pieChart.setClockwise(false);
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -101,7 +103,7 @@ public class Dashboard implements Initializable {
         series.getData().add(new XYChart.Data<>("8", 5D));
 
         areaChart.getData().setAll(series);
-        areaChart.setCreateSymbols(true);
+        areaChart.setCreateSymbols(true);*/
     }
     
     public static void createList(){

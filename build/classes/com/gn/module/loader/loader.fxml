@@ -32,7 +32,7 @@
                   <Insets bottom="100.0" left="15.0" />
                </padding>
                <children>
-                  <Label prefHeight="68.0" prefWidth="361.0" text="Vous aide à gérer votre école&#10;et à créer le meilleur environnement éducatif&#10;&#10;&#10;" textFill="WHITE">
+                  <Label prefHeight="68.0" prefWidth="361.0" text="MVP, votre meilleur monde  &#10; du Gaming &#10;&#10;&#10;" textFill="WHITE">
                      <padding>
                         <Insets left="40.0" />
                      </padding>
