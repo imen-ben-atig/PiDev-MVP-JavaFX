@@ -132,17 +132,22 @@
                               <content>
                                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="drawer-content">
                                     <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#order" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Order" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#categorie" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Categorie" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#produit" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Produit" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#reponse" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Reponse" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#add_blog" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Add Blog" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#blog_list" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Blog List" />
+                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#reservation" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Reservation" />
+
                                  </VBox>
                               </content>
                               <graphic>
                                  <SVGPath content="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97" styleClass="icon" />
                               </graphic>
                            </TitledPane>
-                           <TitledPane fx:id="user" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="130.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="User">
+                           <TitledPane fx:id="user" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="130.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="">
                               <content>
                                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="drawer-content">
-                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#order_user" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Order" />
-                                    <Button minHeight="26.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#cart" prefHeight="26.0" prefWidth="225.0" styleClass="drawer-item" text="Cart" />
                                  </VBox>
                               </content>
                               <graphic>

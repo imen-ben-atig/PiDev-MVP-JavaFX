@@ -32,12 +32,24 @@ public class ServiceCart implements IService<Cart> {
     @Override
     public void ajouter(Cart c) throws SQLException {
     }
-    public void ajouter1(Cart c) throws SQLException
+    public Cart ajouter1(Cart c) throws SQLException
     {
-    PreparedStatement pre=con.prepareStatement("INSERT INTO `cart` ( `prix`, `quantite`) VALUES ( ?, ?);");
+    PreparedStatement pre=con.prepareStatement("INSERT INTO `cart` ( `prix`, `quantite`,`session`,`titre`) VALUES ( ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS);
     pre.setFloat(1, c.getPrix());
     pre.setInt(2, c.getQuantite());
+    pre.setString(3,"session");
+    pre.setString(4, "title");
     pre.executeUpdate();
+    ResultSet generatedKeys = pre.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return new Cart(
+                    generatedKeys.getInt(1),
+                    c.getPrix(),
+                    c.getQuantite()
+                );
+            } else {
+                return new Cart();
+            }
     }       
 
     @Override
@@ -73,6 +85,20 @@ public class ServiceCart implements IService<Cart> {
      arr.add(p);
      }
     return arr;
+    }
+
+public Cart readOne(int cID) throws SQLException {
+    Cart p = new Cart();
+    ste=con.createStatement();
+    ResultSet rs=ste.executeQuery("select * from `cart` WHERE id="+cID);
+     while (rs.next()) {                
+               int id=rs.getInt(1);
+               float prix=rs.getFloat("prix");
+               int quantite=rs.getInt("quantite");
+                p=new Cart(id, prix, quantite);
+     }
+     return p;
+
     }
     
     public List<Cart> displayClause(String cl) throws SQLException {

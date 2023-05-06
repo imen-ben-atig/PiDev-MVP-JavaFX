@@ -72,6 +72,18 @@ public class ServiceCart_Produit implements IService<Cart_Produit> {
      }
     return arr;
     }
+
+public Cart_Produit readOne(int cID, int pID) throws SQLException {
+    Cart_Produit p = new Cart_Produit();
+    ste=con.createStatement();
+    ResultSet rs=ste.executeQuery("select * from `cart_produit` WHERE produit_id="+pID+" and cart_id="+cID);
+     while (rs.next()) {                
+               
+                p=new Cart_Produit(cID,pID);
+     }
+     return p;
+
+    }
     
     public List<Cart_Produit> displayClause(String cl) throws SQLException {
         String requeteInsert = "Select * from `cart_produit` "+cl+" ORDER BY cart_id;";
