@@ -27,7 +27,7 @@ public class ReservationService {
     private Connection con = DataBase.getInstance().getConnection();
 
     public void ajouter(Reservation E) throws SQLException { // NE9SA DATE
-        String requete = "INSERT INTO reservation (date,id_membre,id_evenement) VALUES (?, ?, ?)";
+        String requete = "INSERT INTO reservation (date,id_membre_id,id_evenement_id) VALUES (?, ?, ?)";
         PreparedStatement pst = con.prepareStatement(requete);
 
         pst.setString(1, E.getDate());
@@ -52,7 +52,7 @@ public class ReservationService {
     }
 
     public void update(Reservation E) throws SQLException {
-        String requete = "UPDATE reservation SET date=?, id_membre=?, id_evenement=? WHERE id=?";
+        String requete = "UPDATE reservation SET date=?, id_membre_id=?, id_evenement_id=? WHERE id=?";
         PreparedStatement pst = con.prepareStatement(requete);
         pst.setString(1, E.getDate());
         pst.setInt(2, E.getRes_user().getId());
@@ -77,8 +77,8 @@ public class ReservationService {
                 "e.id AS evenement_id, e.nom, e.date, e.description, " +
                 "e.duree, e.capacite, e.type, e.image " +
                 "FROM reservation r " +
-                "JOIN user u ON r.id_membre = u.id " +
-                "JOIN evenement e ON r.id_evenement = e.id";
+                "JOIN user u ON r.id_membre_id = u.id " +
+                "JOIN evenement e ON r.id_evenement_id = e.id";
         PreparedStatement pst = con.prepareStatement(requete);
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {

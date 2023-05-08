@@ -204,9 +204,9 @@ public class App extends Application {
                 if(Main.popup.isShowing()) Main.popup.hide();
                 App.decorator.removeCustom(userDetail);
             });
-            if(session.getUser().getRoles().equals("['ROLE_ADMIN']")) {
+            if(session.getUser().getRoles().equals("[\"ROLE_ADMIN \"]")) {
             decorator.setContent(ViewManager.getInstance().get("main"));
-            } else if(session.getUser().getRoles().equals("['ROLE8USER']")) {
+            } else if(session.getUser().getRoles().equals("[\"ROLE_USER\"]")) {
             decorator.setContent(ViewManager.getInstance().get("main"));
             }
         }

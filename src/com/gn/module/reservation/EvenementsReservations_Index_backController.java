@@ -220,7 +220,7 @@ public class EvenementsReservations_Index_backController implements Initializabl
                 IDTextfield.setDisable(true);
                 IDTextfield.setText(String.valueOf(newSelection.getId()));
                 NOM.setText(newSelection.getNom());
-                DATEPICKER.setValue(java.time.LocalDate.parse(newSelection.getDate()));
+                DATEPICKER.setValue(java.time.LocalDate.parse(newSelection.getDate().substring(0, 10)));
                 DESC.setText(newSelection.getDescription());
                 DUREE_SPINNER.setValueFactory(
                         new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, newSelection.getDuree()));
@@ -513,7 +513,7 @@ public class EvenementsReservations_Index_backController implements Initializabl
             // Set the values of the selected row to the input fields
             IDTextfield.setText(String.valueOf(id));
             NOM.setText(nom);
-            DATEPICKER.setValue(java.time.LocalDate.parse(date));
+            DATEPICKER.setValue(java.time.LocalDate.parse(date.substring(0, 10)));
             DESC.setText(desc);
             DUREE_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24, duree));
             CAP_SPINNER.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, cap));

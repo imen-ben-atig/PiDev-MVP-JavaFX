@@ -57,12 +57,17 @@ public class LoginController implements Initializable {
 		if (!emailText.isEmpty() || !passwordText.isEmpty()) {
 			if (UserService.login(emailText, passwordText)) // Returns true if email & password are verified & if user is enabled
 			{ System.out.println("login success");
+			UserSession.getInstance().setUser(UserService.getUserByEmail(emailText));
+			System.out.println("/////////" + UserSession.getInstance().getUser().getPseudo());
 				// Load the home page
-					if(UserService.getRole(emailText).equals("['ROLE_ADMIN']")) {
+					if(UserService.getRole(emailText).equals("[\"ROLE_ADMIN\"]")) {
+						UserSession.getInstance().setUser(UserService.getUserByEmail(emailText));
                                             App.decorator.setContent(ViewManager.getInstance().get("main"));
 					}
-					else if(UserService.getRole(emailText).equals("['ROLE_USER']")) {
+					else if(UserService.getRole(emailText).equals("[\"ROLE_USER\"]")) {
+						UserSession.getInstance().setUser(UserService.getUserByEmail(emailText));
                                             App.decorator.setContent(ViewManager.getInstance().get("Front"));
+											
 					}
 					
 						

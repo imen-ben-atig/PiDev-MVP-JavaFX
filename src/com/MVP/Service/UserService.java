@@ -7,6 +7,8 @@ package com.MVP.Service;
 
 import com.MVP.Entite.User;
 import com.MVP.Utils.DataBase;
+import com.MVP.Utils.UserSession;
+
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -166,6 +168,7 @@ public class UserService {
                 //Check if password matches hashed password in database
                 String hashedPassword = rs.getString("password");
                 if (BCrypt.checkpw(password, hashedPassword)) {
+                    
                     return true;
                 }
                 else

@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 
 public class DataBase {
-     String url = "jdbc:mysql://127.0.0.1:3306/esprit";
+     String url = "jdbc:mysql://127.0.0.1:3306/gamegalaxy";
      String login = "root";
      String pwd = "";
     public  static DataBase db;

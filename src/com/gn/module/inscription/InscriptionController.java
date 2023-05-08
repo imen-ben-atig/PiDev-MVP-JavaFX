@@ -113,7 +113,7 @@ public class InscriptionController implements Initializable {
 		u.setPassword(password.getText());
 		u.setAddresse(adresse.getText());
 		u.setDate_naissance(date_naissance.getValue().toString());
-		u.setRoles("['ROLE_USER']");
+		u.setRoles("[\"ROLE_USER\"]");
 		// Generate activation_token
 		String activation_token = BCrypt.hashpw(u.getEmail(), BCrypt.gensalt(13));
 		u.setActivation_token(activation_token);

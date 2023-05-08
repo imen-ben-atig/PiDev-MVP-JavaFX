@@ -71,6 +71,7 @@ public class Evenements_Index_frontController implements Initializable {
         UserService dao2 = new UserService();
         ReservationService dao3 = new ReservationService();
         User currentUser = UserSession.getInstance().getUser();
+        System.out.println("////////Qaaaaaaaaaaaaaaaaaaa///////"+currentUser);
         ArrayList<HBox> HBoxList = new ArrayList<>();
         try {
             // Get the ArrayList from the service
@@ -98,6 +99,7 @@ public class Evenements_Index_frontController implements Initializable {
             //Create an on action event for every reserverBtn created in each HBox, to book for that event for the currentUser
             
             reserverBtn.setOnAction(event -> {
+                System.out.println("///////////////"+currentUser);
                 dao3.reserver(currentUser, evenements.get(0));
                 System.out.println("Reservation done!");
             });
@@ -129,6 +131,7 @@ public class Evenements_Index_frontController implements Initializable {
                     //Create an on action event for every reserverBtn created in each HBox, to book for that event for the currentUser
                     
                     reserverBtn.setOnAction(event -> {
+                        
                         dao3.reserver(currentUser, evenement);
                         System.out.println("Reservation done!");
                     }
